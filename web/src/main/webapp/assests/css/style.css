@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.container {
+    min-height: 120px;
+    width: 350px;
+    border: solid 1px grey;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.user-container {
+    width: 200px;
+    border: solid 1px grey;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.inputForm {
+    text-align: left;
+    vertical-align: bottom;
+    position: relative;
+    width: 250px;
+    font-size: 12px;
+    height: 20px;
+    margin: 5px;
+    padding-left: 5px;
+    border: solid 1px grey;
+    outline: none;
+    border-radius: 5px;
+}
+
+.button {
+    font-size: 11px;
+    width: 150px;
+    height: 20px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.table-button {
+    font-size: 9px;
+    width: 50px;
+    height: 15px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.input-label {
+    font-size: 12px;
+    vertical-align: center;
+}
+
+.list {
+    width: 100%;
+    text-align: center;
+    vertical-align: text-top;
+    font-size: 12px;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.list td {
+    border: dotted 1px grey;
+}
+
+.left-content {
+    border: solid 1px grey;
+    width: 200px;
+    vertical-align: top;
+}
+
+.right-content {
+    border: solid 1px grey;
+    width: 100%;
+    vertical-align: top;
+}
+
+.reg-hint {
+    color: red;
+    font-size: 10px;
+    width: 250px;
+    text-align: center;
+    margin: 0;
+}
+
+.report {
+    font-size: 12px;
+    vertical-align: center;
+}
