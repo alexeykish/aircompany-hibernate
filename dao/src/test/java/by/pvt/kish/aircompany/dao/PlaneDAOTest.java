@@ -1,14 +1,14 @@
 package by.pvt.kish.aircompany.dao;
 
 import by.pvt.kish.aircompany.dao.impl.PlaneDAO;
-import by.pvt.kish.aircompany.entity.Plane;
-import by.pvt.kish.aircompany.enums.Position;
+import by.pvt.kish.aircompany.enums.PlaneStatus;
+import by.pvt.kish.aircompany.pojos.Plane;
+import by.pvt.kish.aircompany.pojos.PlaneCrew;
+import by.pvt.kish.aircompany.utils.HibernateUtil;
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -18,64 +18,57 @@ import static org.junit.Assert.assertNull;
  */
 public class PlaneDAOTest {
 
-    private PlaneDAO planeDAO;
+    private PlaneDAO planeDAO = PlaneDAO.getInstance();;
     private Long id;
     private Plane testPlane;
+    private PlaneCrew testCrew;
+    private HibernateUtil util = HibernateUtil.getUtil();
+    private Transaction transaction;
 
     @Before
     public void setUp() throws Exception {
-        planeDAO = PlaneDAO.getInstance();
-        testPlane = new Plane();
-        testPlane.setModel("testModel");
-        testPlane.setCapacity(100);
-        testPlane.setRange(200);
-        Map<Position, Integer> testTeam = new TreeMap<>();
-        testTeam.put(Position.PILOT, 1);
-        testTeam.put(Position.NAVIGATOR, 1);
-        testTeam.put(Position.RADIOOPERATOR, 1);
-        testTeam.put(Position.STEWARDESS, 1);
-        testPlane.setTeam(testTeam);
+        testPlane = new Plane("testModel", 100, 200);
+        testCrew = new PlaneCrew(1, 1, 1, 1);
+
+        testPlane.setPlaneCrew(testCrew);
+        testCrew.setPlane(testPlane);
+
+        transaction = util.getSession().beginTransaction();
         id = planeDAO.add(testPlane);
     }
 
     @Test
     public void testAdd() throws Exception {
         Plane addedPlane = planeDAO.getById(id);
-        assertEquals("Add method failed: wrong model", addedPlane.getModel(), testPlane.getModel());
-        assertEquals("Add method failed: wrong capacity", addedPlane.getCapacity(), testPlane.getCapacity());
-        assertEquals("Add method failed: wrong range", addedPlane.getRange(), testPlane.getRange());
-        assertEquals("Add method failed: wrong team", addedPlane.getTeam(), testPlane.getTeam());
+        assertEquals("Add method failed: wrong plane", addedPlane, testPlane);
+        assertEquals("Add method failed: wrong planeCrew", addedPlane.getPlaneCrew(), testCrew);
+        planeDAO.delete(id);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        Plane prepareToUpdatePlane = new Plane();
-        prepareToUpdatePlane.setPid(id);
+        Plane prepareToUpdatePlane = planeDAO.getById(id);
         prepareToUpdatePlane.setModel("updatedModel");
         prepareToUpdatePlane.setCapacity(300);
         prepareToUpdatePlane.setRange(400);
-        Map<Position, Integer> updatedTeam = new TreeMap<>();
-        updatedTeam.put(Position.PILOT, 2);
-        updatedTeam.put(Position.NAVIGATOR, 2);
-        updatedTeam.put(Position.RADIOOPERATOR, 2);
-        updatedTeam.put(Position.STEWARDESS, 2);
-        prepareToUpdatePlane.setTeam(updatedTeam);
+
+        PlaneCrew updatedCrew = new PlaneCrew(2, 2, 2, 2);
+        updatedCrew.setPid(id);
+        prepareToUpdatePlane.setPlaneCrew(updatedCrew);
         planeDAO.update(prepareToUpdatePlane);
+
         Plane updatedPlane = planeDAO.getById(id);
-        assertEquals("Update method failed: wrong pid", prepareToUpdatePlane.getPid(), updatedPlane.getPid());
-        assertEquals("Update method failed: wrong model", prepareToUpdatePlane.getModel(), updatedPlane.getModel());
-        assertEquals("Update method failed: wrong capacity", prepareToUpdatePlane.getCapacity(), updatedPlane.getCapacity());
-        assertEquals("Update method failed: wrong range", prepareToUpdatePlane.getRange(), updatedPlane.getRange());
-        assertEquals("Update method failed: wrong team", prepareToUpdatePlane.getTeam(), updatedPlane.getTeam());
+        assertEquals("Update method failed: wrong pid", prepareToUpdatePlane, updatedPlane);
+        assertEquals("Update method failed: wrong model", prepareToUpdatePlane.getPlaneCrew(), updatedPlane.getPlaneCrew());
+        planeDAO.delete(id);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        int beforeAddNumber = planeDAO.getAll().size();
-        Long getAllId = planeDAO.add(testPlane);
-        int afterAddNumber = planeDAO.getAll().size();
-        assertEquals("Get all method failed", beforeAddNumber, afterAddNumber - 1);
-        planeDAO.delete(getAllId);
+        Long countPlanes = (long) planeDAO.getAll().size();
+        Long countLines = planeDAO.getCount();
+        assertEquals("Get all method failed", countLines, countPlanes);
+        planeDAO.delete(id);
     }
 
     @Test
@@ -84,9 +77,18 @@ public class PlaneDAOTest {
         assertNull("Delete method: failed", planeDAO.getById(id));
     }
 
+    @Test
+
+    public void testSetStatus() throws Exception {
+        Plane prepareToUpdateStatusPlane = planeDAO.getById(id);
+        planeDAO.setStatus(id, PlaneStatus.BLOCKED);
+        Plane updatedStatusPlane = planeDAO.getById(id);
+        assertEquals("Update method failed: wrong status", updatedStatusPlane.getStatus(), prepareToUpdateStatusPlane.getStatus());
+        planeDAO.delete(id);
+    }
+
     @After
     public void tearDown() throws Exception {
-        planeDAO.delete(id);
-
+        transaction.commit();
     }
 }

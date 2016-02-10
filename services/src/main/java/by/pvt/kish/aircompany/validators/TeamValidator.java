@@ -4,9 +4,8 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.Employee;
-import by.pvt.kish.aircompany.entity.Flight;
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
@@ -84,10 +83,10 @@ public class TeamValidator {
                 num_stewardesses++;
             }
         }
-        return num_pilots != plane.getTeam().get(Position.PILOT) ||
-                num_navigators != plane.getTeam().get(Position.NAVIGATOR) ||
-                num_radiooperators != plane.getTeam().get(Position.RADIOOPERATOR) ||
-                num_stewardesses != plane.getTeam().get(Position.STEWARDESS);
+        return num_pilots != plane.getPlaneCrew().get(Position.PILOT) ||
+                num_navigators != plane.getPlaneCrew().get(Position.NAVIGATOR) ||
+                num_radiooperators != plane.getPlaneCrew().get(Position.RADIOOPERATOR) ||
+                num_stewardesses != plane.getPlaneCrew().get(Position.STEWARDESS);
     }
 
     /**

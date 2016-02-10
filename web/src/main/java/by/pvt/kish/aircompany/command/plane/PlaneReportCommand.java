@@ -2,8 +2,8 @@ package by.pvt.kish.aircompany.command.plane;
 
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.entity.Flight;
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Flight;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.PlaneStatus;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
@@ -30,10 +30,10 @@ public class PlaneReportCommand implements by.pvt.kish.aircompany.command.Action
             Long id = RequestHandler.getId(request, "pid");
             Plane plane = PlaneService.getInstance().getById(id);
             Map<String, Integer> team = new HashMap<>();
-            team.put(Position.PILOT.toString(), plane.getTeam().get(Position.PILOT));
-            team.put(Position.NAVIGATOR.toString(), plane.getTeam().get(Position.NAVIGATOR));
-            team.put(Position.RADIOOPERATOR.toString(), plane.getTeam().get(Position.RADIOOPERATOR));
-            team.put(Position.STEWARDESS.toString(), plane.getTeam().get(Position.STEWARDESS));
+            team.put(Position.PILOT.toString(), plane.getPlaneCrew().get(Position.PILOT));
+            team.put(Position.NAVIGATOR.toString(), plane.getPlaneCrew().get(Position.NAVIGATOR));
+            team.put(Position.RADIOOPERATOR.toString(), plane.getPlaneCrew().get(Position.RADIOOPERATOR));
+            team.put(Position.STEWARDESS.toString(), plane.getPlaneCrew().get(Position.STEWARDESS));
             List<Flight> flights = FlightService.getInstance().getPlaneLastFiveFlights(plane.getPid());
             boolean permissionChangeDeleteStatus = flights.size() != 0;
             List<PlaneStatus> planeStatuses = Arrays.asList(PlaneStatus.values());

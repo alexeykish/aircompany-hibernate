@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.exceptions.ServiceLoginException;
@@ -32,15 +32,6 @@ public interface IUserService {
      * @throws ServiceLoginException - if something fails at Service user authorisation
      */
     User getUser(String login, String password) throws ServiceException, ServiceLoginException;
-
-    /**
-     * Checks user authorisation status
-     *
-     * @param id - The ID of the user to be checked
-     * @return true is status is ONLINE, false if status is OFFLINE
-     * @throws ServiceException - if something fails at Service layer
-     */
-    boolean checkStatus(Long id) throws ServiceException;
 
     /**
      * Set user status to DB

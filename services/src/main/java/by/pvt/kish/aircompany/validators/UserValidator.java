@@ -4,7 +4,7 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.User;
 
 import static by.pvt.kish.aircompany.validators.FormDataValidator.*;
 

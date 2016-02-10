@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.entity.Employee;
+import by.pvt.kish.aircompany.pojos.Employee;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
 import org.junit.After;

@@ -1,7 +1,7 @@
 package by.pvt.kish.aircompany.services.impl;
 
 import by.pvt.kish.aircompany.dao.impl.AirportDAO;
-import by.pvt.kish.aircompany.entity.Airport;
+import by.pvt.kish.aircompany.pojos.Airport;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.exceptions.ServiceValidateException;
 import by.pvt.kish.aircompany.services.BaseService;

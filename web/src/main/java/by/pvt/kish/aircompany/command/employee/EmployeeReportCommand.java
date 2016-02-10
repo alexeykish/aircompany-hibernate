@@ -2,8 +2,8 @@ package by.pvt.kish.aircompany.command.employee;
 
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.entity.Employee;
-import by.pvt.kish.aircompany.entity.Flight;
+import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;

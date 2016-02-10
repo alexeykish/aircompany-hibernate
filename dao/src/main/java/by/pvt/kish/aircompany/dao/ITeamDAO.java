@@ -1,9 +1,6 @@
 package by.pvt.kish.aircompany.dao;
 
-import by.pvt.kish.aircompany.entity.Employee;
 import by.pvt.kish.aircompany.exceptions.DaoException;
-
-import java.util.List;
 
 /**
  * This interface represents a contract for a IDAO for the flight team.
@@ -19,7 +16,7 @@ public interface ITeamDAO {
      * @param team - The flight team to be created
      * @throws DaoException If something fails at DB level
      */
-    void add(Long id, List<Long> team) throws DaoException;
+   // void add(Long id, List<Long> team) throws DaoException;
 
     /**
      * Returns a list of employees of the flight team for particular flight from the DB matching the given ID
@@ -28,5 +25,5 @@ public interface ITeamDAO {
      * @return a list of the employees, that is a flight team
      * @throws DaoException If something fails at DB level
      */
-    List<Employee> getById(Long id) throws DaoException;
+   // Set<Employee> getById(Long id) throws DaoException;
 }

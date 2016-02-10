@@ -1,7 +1,7 @@
 package by.pvt.kish.aircompany.dao;
 
-import by.pvt.kish.aircompany.entity.Flight;
-import by.pvt.kish.aircompany.enums.PlaneStatus;
+import by.pvt.kish.aircompany.enums.FlightStatus;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 
 import java.util.List;
@@ -30,5 +30,7 @@ public interface IFlightDAO {
      * @throws DaoException If something fails at DB level
      */
     List<Flight> getEmployeeLastFiveFlights(Long id) throws DaoException;
+
+    void setStatus(Long id, FlightStatus status) throws DaoException;
 
 }

@@ -1,7 +1,7 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 
 /**
@@ -37,10 +37,10 @@ public class PlaneValidator implements IValidator<Plane> {
                 (plane.getModel().equals("")) ||
                 (plane.getCapacity() < 1) ||
                 (plane.getRange() < 1) ||
-                (plane.getTeam() == null) ||
-                (plane.getTeam().get(Position.PILOT) <= 0) ||
-                (plane.getTeam().get(Position.NAVIGATOR) <= 0) ||
-                (plane.getTeam().get(Position.RADIOOPERATOR) <= 0) ||
-                (plane.getTeam().get(Position.STEWARDESS) <= 0);
+                (plane.getPlaneCrew() == null) ||
+                (plane.getPlaneCrew().get(Position.PILOT) <= 0) ||
+                (plane.getPlaneCrew().get(Position.NAVIGATOR) <= 0) ||
+                (plane.getPlaneCrew().get(Position.RADIOOPERATOR) <= 0) ||
+                (plane.getPlaneCrew().get(Position.STEWARDESS) <= 0);
     }
 }

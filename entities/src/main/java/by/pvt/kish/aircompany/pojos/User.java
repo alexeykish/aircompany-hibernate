@@ -1,11 +1,12 @@
 /**
  *
  */
-package by.pvt.kish.aircompany.entity;
+package by.pvt.kish.aircompany.pojos;
 
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.enums.UserType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -16,15 +17,35 @@ import java.io.Serializable;
  *
  * @author Kish Alexey
  */
+@Entity
 public class User implements Serializable {
+
+    @Id
+    @GeneratedValue
     private Long uid;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String login;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('ADMINISTRATOR','DISPATCHER')")
     private UserType userType;
-    private UserStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('ONLINE','OFFLINE')", insertable = false)
+    private UserStatus status = UserStatus.OFFLINE;
 
     public User() {
     }
@@ -144,5 +165,17 @@ public class User implements Serializable {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", userType=" + userType +
+                ", status=" + status +
+                '}';
+    }
 }

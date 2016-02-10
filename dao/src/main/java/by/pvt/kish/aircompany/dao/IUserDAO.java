@@ -1,8 +1,8 @@
 package by.pvt.kish.aircompany.dao;
 
-import by.pvt.kish.aircompany.entity.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.exceptions.DaoException;
+import by.pvt.kish.aircompany.pojos.User;
 
 /**
  * This interface represents a contract for a IDAO for the {@link User} model.
@@ -31,15 +31,6 @@ public interface IUserDAO {
      * @throws DaoException If something fails at DB level
      */
     User getUser(String login, String password) throws DaoException;
-
-    /**
-     * Checks user authorisation status
-     *
-     * @param id - The ID of the user to be checked
-     * @return true is status is ONLINE, false if status is OFFLINE
-     * @throws DaoException If something fails at DB level
-     */
-    boolean checkStatus(Long id) throws DaoException;
 
     /**
      * Set user status to DB

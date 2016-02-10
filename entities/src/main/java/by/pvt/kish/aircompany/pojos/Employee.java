@@ -1,9 +1,12 @@
-package by.pvt.kish.aircompany.entity;
+package by.pvt.kish.aircompany.pojos;
 
 import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.enums.Position;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class represents the Employee model.
@@ -13,30 +16,42 @@ import java.io.Serializable;
  *
  * @author Kish Alexey
  */
+@Entity
 public class Employee implements Serializable {
+    @Id
+    @GeneratedValue
+    @Column
     private Long eid;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "enum('PILOT','NAVIGATOR','RADIOOPERATOR','STEWARDESS')")
     private Position position;
-    private EmployeeStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('AVAILABLE','BUSY','BLOCKED')", insertable = false)
+    private EmployeeStatus status = EmployeeStatus.AVAILABLE;
+
+    @ManyToMany(mappedBy = "crew")
+    private Set<Flight> flights = new HashSet<>();
 
     public Employee() {
     }
 
     /**
-     * @param eid       - employee id
      * @param firstName - employee firstname
      * @param lastName  - employee lastname
      * @param position  - employee position in a flight team
-     * @param status    - employee available status
      */
-    public Employee(Long eid, String firstName, String lastName, Position position, EmployeeStatus status) {
-        super();
-        this.eid = eid;
+    public Employee(String firstName, String lastName, Position position) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
-        this.status = status;
     }
 
     @Override
@@ -103,4 +118,24 @@ public class Employee implements Serializable {
     public void setStatus(EmployeeStatus status) {
         this.status = status;
     }
+
+    public Set<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
+    }
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "eid=" + eid +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", position=" + position +
+                ", status=" + status +
+                '}';
+    }
+
+
 }

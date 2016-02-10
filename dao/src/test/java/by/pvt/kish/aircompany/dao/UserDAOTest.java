@@ -1,10 +1,12 @@
 package by.pvt.kish.aircompany.dao;
 
 import by.pvt.kish.aircompany.dao.impl.UserDAO;
-import by.pvt.kish.aircompany.entity.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.enums.UserType;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.utils.Coder;
+import by.pvt.kish.aircompany.utils.HibernateUtil;
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,8 @@ public class UserDAOTest {
     private UserDAO userDao;
     private Long id;
     private User testUser;
+    private HibernateUtil util = HibernateUtil.getUtil();
+    private Transaction transaction;
 
     @Before
     public void setUp() throws Exception {
@@ -25,48 +29,45 @@ public class UserDAOTest {
         testUser = new User();
         testUser.setFirstName("testFirstName");
         testUser.setLastName("testLastName");
-        testUser.setLogin("testLogin");
+        testUser.setLogin("testLogin" + Math.random());
         testUser.setPassword(Coder.getHashCode("testPassword"));
         testUser.setEmail("test@test.com");
         testUser.setUserType(UserType.DISPATCHER);
+
+        transaction = util.getSession().beginTransaction();
         id = userDao.add(testUser);
     }
 
     @Test
     public void testAdd() throws Exception {
         User addedUser = userDao.getById(id);
-        assertEquals("Add method failed: wrong firstname", testUser.getFirstName(), addedUser.getFirstName());
-        assertEquals("Add method failed: wrong lastname", testUser.getLastName(), addedUser.getLastName());
-        assertEquals("Add method failed: wrong login", testUser.getLogin(), addedUser.getLogin());
-        assertEquals("Add method failed: wrong email", testUser.getEmail(), addedUser.getEmail());
-        assertEquals("Add method failed: wrong usertype", testUser.getUserType(), addedUser.getUserType());
+        assertEquals("Add method failed: wrong user", testUser, addedUser);
+        userDao.delete(id);
     }
 
     @Test
     public void testCheckLogin() throws Exception {
         assertFalse("CheckLogin method positive test failed", userDao.checkLogin(testUser.getLogin()));
         assertTrue("CheckLogin method negative test failed", userDao.checkLogin("wrongLogin"));
+        userDao.delete(id);
     }
 
     @Test
     public void testGetUser() throws Exception {
-        User gettedUser = userDao.getUser(testUser.getLogin(), testUser.getPassword());
-        assertEquals("Get method failed: wrong firstname", testUser.getFirstName(), gettedUser.getFirstName());
-        assertEquals("Get method failed: wrong lastname", testUser.getLastName(), gettedUser.getLastName());
-        assertEquals("Get method failed: wrong login", testUser.getLogin(), gettedUser.getLogin());
-        assertEquals("Get method failed: wrong email", testUser.getEmail(), gettedUser.getEmail());
-        assertEquals("Get method failed: wrong usertype", testUser.getUserType(), gettedUser.getUserType());
+        User receivedUser = userDao.getUser(testUser.getLogin(), testUser.getPassword());
+        assertEquals("Get method failed: wrong user", testUser, receivedUser);
+        User wrongReceivedUser = userDao.getUser("wrongLogin", "wrongPassword");
+        assertNull("Get method failed: wrong user", wrongReceivedUser);
+        userDao.delete(id);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        User testUser2 = testUser;
-        testUser2.setLogin("testLogin2");
-        int beforeAddNumber = userDao.getAll().size();
-        Long getAllId = userDao.add(testUser2);
-        int afterAddNumber = userDao.getAll().size();
-        assertEquals("Get all users method failed", beforeAddNumber, afterAddNumber - 1);
-        userDao.delete(getAllId);
+        Long count = (long) userDao.getAll().size();
+        Long countFact = userDao.getCount();
+        assertEquals("Get all method failed", count, countFact);
+        userDao.delete(id);
+
     }
 
     @Test
@@ -76,23 +77,17 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        User offlineUser = userDao.getById(id);
-        assertFalse("CheckStatus method negative test failed", userDao.checkStatus(offlineUser.getUid()));
-        userDao.setStatus(id, UserStatus.ONLINE);
-        User onlineUser = userDao.getById(id);
-        assertTrue("CheckStatus method positive test failed", userDao.checkStatus(onlineUser.getUid()));
-    }
-
-    @Test
     public void testSetStatus() throws Exception {
+        User prepareToUpdateStatusUser = userDao.getById(id);
         userDao.setStatus(id, UserStatus.ONLINE);
-        assertEquals("Set user status method failed", userDao.getById(id).getStatus(), UserStatus.ONLINE);
+        User updatedStatusUser = userDao.getById(id);
+        assertEquals("Set user status method failed", prepareToUpdateStatusUser.getStatus(), updatedStatusUser.getStatus());
+        userDao.delete(id);
     }
 
     @After
     public void tearDown() throws Exception {
-        userDao.delete(id);
+        transaction.commit();
     }
 
 

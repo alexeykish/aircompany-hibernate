@@ -4,7 +4,7 @@ import by.pvt.kish.aircompany.command.ActionCommand;
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.exceptions.ServiceValidateException;

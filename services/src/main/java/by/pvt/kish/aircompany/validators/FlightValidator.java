@@ -4,11 +4,9 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.Flight;
+import by.pvt.kish.aircompany.pojos.Flight;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Describes the utility class to test the Flight object before adding or changing it in the DB

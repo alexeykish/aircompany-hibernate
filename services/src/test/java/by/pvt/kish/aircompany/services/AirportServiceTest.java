@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.entity.Airport;
+import by.pvt.kish.aircompany.pojos.Airport;
 import by.pvt.kish.aircompany.services.impl.AirportService;
 import org.junit.After;
 import org.junit.Before;

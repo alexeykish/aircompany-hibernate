@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/aircompany_hibernate</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">123456</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.pool_size">10</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!--<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>-->
+        <!--<property name="hibernate.cache.use_query_cache">true</property>-->
+        <!--<property name="hibernate.cache.use_second_level_cache">true</property>-->
+
+        <mapping class="by.pvt.kish.aircompany.pojos.Airport"/>
+        <mapping class="by.pvt.kish.aircompany.pojos.Employee"/>
+        <mapping class="by.pvt.kish.aircompany.pojos.Flight"/>
+        <mapping class="by.pvt.kish.aircompany.pojos.Plane"/>
+        <mapping class="by.pvt.kish.aircompany.pojos.User"/>
+        <mapping class="by.pvt.kish.aircompany.pojos.PlaneCrew"/>
+    </session-factory>
+</hibernate-configuration>

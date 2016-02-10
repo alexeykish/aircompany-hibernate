@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.enums.UserType;
 import by.pvt.kish.aircompany.services.impl.UserService;

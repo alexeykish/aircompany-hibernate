@@ -2,8 +2,7 @@ package by.pvt.kish.aircompany.services.impl;
 
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.dao.impl.PlaneDAO;
-import by.pvt.kish.aircompany.entity.Plane;
-import by.pvt.kish.aircompany.enums.PlaneStatus;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.exceptions.ServiceValidateException;

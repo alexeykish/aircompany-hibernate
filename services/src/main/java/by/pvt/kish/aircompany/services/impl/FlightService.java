@@ -2,8 +2,7 @@ package by.pvt.kish.aircompany.services.impl;
 
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.dao.impl.FlightDAO;
-import by.pvt.kish.aircompany.entity.Employee;
-import by.pvt.kish.aircompany.entity.Flight;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.exceptions.ServiceValidateException;
@@ -11,7 +10,6 @@ import by.pvt.kish.aircompany.services.BaseService;
 import by.pvt.kish.aircompany.validators.FlightValidator;
 import org.apache.log4j.Logger;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 

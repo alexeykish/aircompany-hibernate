@@ -4,7 +4,7 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.Employee;
+import by.pvt.kish.aircompany.pojos.Employee;
 
 /**
  * Describes the utility class to test the Employee object before adding or changing it in the DB

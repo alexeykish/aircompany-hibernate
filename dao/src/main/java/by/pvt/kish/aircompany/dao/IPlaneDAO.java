@@ -1,10 +1,7 @@
 package by.pvt.kish.aircompany.dao;
 
-import by.pvt.kish.aircompany.entity.Employee;
 import by.pvt.kish.aircompany.enums.PlaneStatus;
 import by.pvt.kish.aircompany.exceptions.DaoException;
-
-import java.util.List;
 
 /**
  * This interface represents a contract for a IDAO for the plane model.
@@ -19,5 +16,5 @@ public interface IPlaneDAO {
      * @param id - The ID of the flight
      * @throws DaoException If something fails at DB level
      */
-    void setStatus(Long id, String status) throws DaoException;
+    void setStatus(Long id, PlaneStatus status) throws DaoException;
 }

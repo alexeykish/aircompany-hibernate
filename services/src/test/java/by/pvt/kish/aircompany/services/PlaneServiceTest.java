@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.services.impl.PlaneService;
 import org.junit.After;
@@ -32,7 +32,7 @@ public class PlaneServiceTest {
         testTeam.put(Position.NAVIGATOR, 1);
         testTeam.put(Position.RADIOOPERATOR, 1);
         testTeam.put(Position.STEWARDESS, 1);
-        testPlane.setTeam(testTeam);
+        testPlane.setPlaneCrew(testTeam);
         id = planeService.add(testPlane);
     }
 
@@ -42,7 +42,7 @@ public class PlaneServiceTest {
         assertEquals("Add method failed: wrong model", addedPlane.getModel(), testPlane.getModel());
         assertEquals("Add method failed: wrong capacity", addedPlane.getCapacity(), testPlane.getCapacity());
         assertEquals("Add method failed: wrong range", addedPlane.getRange(), testPlane.getRange());
-        assertEquals("Add method failed: wrong team", addedPlane.getTeam(), testPlane.getTeam());
+        assertEquals("Add method failed: wrong team", addedPlane.getPlaneCrew(), testPlane.getPlaneCrew());
     }
 
     @Test
@@ -57,14 +57,14 @@ public class PlaneServiceTest {
         updatedTeam.put(Position.NAVIGATOR, 2);
         updatedTeam.put(Position.RADIOOPERATOR, 2);
         updatedTeam.put(Position.STEWARDESS, 2);
-        prepareToUpdatePlane.setTeam(updatedTeam);
+        prepareToUpdatePlane.setPlaneCrew(updatedTeam);
         planeService.update(prepareToUpdatePlane);
         Plane updatedPlane = planeService.getById(id);
         assertEquals("Update method failed: wrong pid", prepareToUpdatePlane.getPid(), updatedPlane.getPid());
         assertEquals("Update method failed: wrong model", prepareToUpdatePlane.getModel(), updatedPlane.getModel());
         assertEquals("Update method failed: wrong capacity", prepareToUpdatePlane.getCapacity(), updatedPlane.getCapacity());
         assertEquals("Update method failed: wrong range", prepareToUpdatePlane.getRange(), updatedPlane.getRange());
-        assertEquals("Update method failed: wrong team", prepareToUpdatePlane.getTeam(), updatedPlane.getTeam());
+        assertEquals("Update method failed: wrong team", prepareToUpdatePlane.getPlaneCrew(), updatedPlane.getPlaneCrew());
     }
 
     @Test

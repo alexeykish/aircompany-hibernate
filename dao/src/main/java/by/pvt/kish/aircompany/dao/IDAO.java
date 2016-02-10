@@ -39,18 +39,20 @@ public interface IDAO<T> {
     /**
      * Returns the Entity from the DB matching the given ID
      *
-     * @param id - The ID of the entity to be returned
-     * @return - the entity from the DB
+     * @param id - The ID of the pojos to be returned
+     * @return - the pojos from the DB
      * @throws DaoException If something fails at DB level
      */
     T getById(Long id) throws DaoException;
 
     /**
-     * Delete the given entity from the DB
+     * Delete the given pojos from the DB
      *
-     * @param id - ID of the entity to be deleted from the DB
+     * @param id - ID of the pojos to be deleted from the DB
      * @throws DaoException If something fails at DB level
      */
     void delete(Long id) throws DaoException;
 
+
+    Long getCount() throws DaoException;
 }

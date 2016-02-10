@@ -1,6 +1,5 @@
 package by.pvt.kish.aircompany.utils;
 
-import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 import org.apache.log4j.Logger;
 
@@ -20,12 +19,12 @@ public class DaoUtils {
     private static Logger logger = Logger.getLogger(DaoUtils.class.getName());
 
     /**
-     * Delete the given entity by ID from the DB
+     * Delete the given pojos by ID from the DB
      *
      * @param connection        - DB connection
      * @param preparedStatement - processed statement
-     * @param id                - The ID of the entity to be deleted
-     * @param sqlQuery          - The SQL request to the DB to delete the entity
+     * @param id                - The ID of the pojos to be deleted
+     * @param sqlQuery          - The SQL request to the DB to delete the pojos
      * @param failMessage       - The message to throw it in exception when SQLException happens
      * @throws DaoException If something fails at DB level
      */
@@ -42,13 +41,13 @@ public class DaoUtils {
     }
 
     /**
-     * Set the given entity status by ID from the DB
+     * Set the given pojos status by ID from the DB
      *
      * @param connection        - DB connection
      * @param preparedStatement - processed statement
-     * @param id                - The ID of the entity to be setted
-     * @param status            - The status of the entity to be setted
-     * @param sqlQuery          - The SQL request to the DB to delete the entity
+     * @param id                - The ID of the pojos to be setted
+     * @param status            - The status of the pojos to be setted
+     * @param sqlQuery          - The SQL request to the DB to delete the pojos
      * @param failMessage       - The message to throw it in exception when SQLException happens
      * @throws DaoException If something fails at DB level
      */

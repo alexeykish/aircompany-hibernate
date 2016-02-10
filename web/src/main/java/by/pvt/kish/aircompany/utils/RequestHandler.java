@@ -1,10 +1,10 @@
 package by.pvt.kish.aircompany.utils;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.entity.Employee;
-import by.pvt.kish.aircompany.entity.Flight;
-import by.pvt.kish.aircompany.entity.Plane;
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Flight;
+import by.pvt.kish.aircompany.pojos.Plane;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.FlightStatus;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.enums.UserStatus;
@@ -115,7 +115,7 @@ public class RequestHandler {
         team.put(Position.NAVIGATOR, Integer.parseInt(num_navigators));
         team.put(Position.RADIOOPERATOR, Integer.parseInt(num_navigators));
         team.put(Position.STEWARDESS, Integer.parseInt(num_stewardess));
-        plane.setTeam(team);
+        plane.setPlaneCrew(team);
         Long id = RequestHandler.getId(request, "pid");
         if (id > 0) {
             plane.setPid(id);

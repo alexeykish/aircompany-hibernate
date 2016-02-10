@@ -1,10 +1,10 @@
-package by.pvt.kish.aircompany.entity;
+package by.pvt.kish.aircompany.pojos;
 
 import by.pvt.kish.aircompany.enums.PlaneStatus;
-import by.pvt.kish.aircompany.enums.Position;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * This class represents the Plane model.
@@ -18,34 +18,45 @@ import java.util.Map;
  *
  * @author Kish Alexey
  */
+@Entity
 public class Plane implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Long pid;
+
+    @Column(nullable = false)
     private String model;
+
+    @Column(nullable = false)
     private int capacity;
-    private int range;
-    private Map<Position, Integer> team;
-    private PlaneStatus status;
+
+    @Column(nullable = false)
+    private int flightRange;
+
+    @OneToMany(mappedBy = "plane")
+    private Set<Flight> flights;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('AVAILABLE','MAINTENANCE','BLOCKED')", insertable = false)
+    private PlaneStatus status = PlaneStatus.AVAILABLE;
+
+    @OneToOne(mappedBy = "plane", cascade=CascadeType.ALL)
+    private PlaneCrew planeCrew;
 
     public Plane() {
     }
 
     /**
-     * @param pid      - plane id
-     * @param model    - plane model
-     * @param capacity - plane passenger capacity
-     * @param range    - plane flight range
-     * @param team     - team to service flight
-     * @param status   - plane available status
+     * @param model     - plane model
+     * @param capacity  - plane passenger capacity
+     * @param range     - plane flight range
      */
 
-    public Plane(Long pid, String model, int capacity, int range, Map<Position, Integer> team, PlaneStatus status) {
-        this.pid = pid;
+    public Plane(String model, int capacity, int range) {
         this.model = model;
         this.capacity = capacity;
-        this.range = range;
-        this.team = team;
-        this.status = status;
+        this.flightRange = range;
     }
 
     @Override
@@ -56,10 +67,9 @@ public class Plane implements Serializable {
         Plane plane = (Plane) o;
 
         if (capacity != plane.capacity) return false;
-        if (range != plane.range) return false;
+        if (flightRange != plane.flightRange) return false;
         if (pid != null ? !pid.equals(plane.pid) : plane.pid != null) return false;
         if (model != null ? !model.equals(plane.model) : plane.model != null) return false;
-        if (team != null ? !team.equals(plane.team) : plane.team != null) return false;
         return status == plane.status;
 
     }
@@ -69,8 +79,7 @@ public class Plane implements Serializable {
         int result = pid != null ? pid.hashCode() : 0;
         result = 31 * result + (model != null ? model.hashCode() : 0);
         result = 31 * result + capacity;
-        result = 31 * result + range;
-        result = 31 * result + (team != null ? team.hashCode() : 0);
+        result = 31 * result + flightRange;
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
@@ -100,19 +109,19 @@ public class Plane implements Serializable {
     }
 
     public int getRange() {
-        return range;
+        return flightRange;
     }
 
     public void setRange(int range) {
-        this.range = range;
+        this.flightRange = range;
     }
 
-    public Map<Position, Integer> getTeam() {
-        return team;
+    public PlaneCrew getPlaneCrew() {
+        return planeCrew;
     }
 
-    public void setTeam(Map<Position, Integer> team) {
-        this.team = team;
+    public void setPlaneCrew(PlaneCrew team) {
+        this.planeCrew = team;
     }
 
     public PlaneStatus getStatus() {
@@ -121,5 +130,25 @@ public class Plane implements Serializable {
 
     public void setStatus(PlaneStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "pid=" + pid +
+                ", model='" + model + '\'' +
+                ", capacity=" + capacity +
+                ", flightRange=" + flightRange +
+                ", status=" + status +
+                ", planeCrew=" + planeCrew +
+                '}';
+    }
+
+    public Set<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
     }
 }

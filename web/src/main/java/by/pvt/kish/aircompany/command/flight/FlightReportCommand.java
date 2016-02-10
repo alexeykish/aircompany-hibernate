@@ -2,7 +2,7 @@ package by.pvt.kish.aircompany.command.flight;
 
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.entity.Flight;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.enums.FlightStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.FlightService;

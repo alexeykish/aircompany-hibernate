@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.utils;
 
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class TeamCreatorTest {
         testTeam.put(Position.NAVIGATOR, numberOfPositions);
         testTeam.put(Position.RADIOOPERATOR, numberOfPositions);
         testTeam.put(Position.STEWARDESS, numberOfPositions);
-        testPlane.setTeam(testTeam);
+        testPlane.setPlaneCrew(testTeam);
     }
 
     @Test

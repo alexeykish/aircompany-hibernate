@@ -1,7 +1,9 @@
 package by.pvt.kish.aircompany.dao;
 
 import by.pvt.kish.aircompany.dao.impl.AirportDAO;
-import by.pvt.kish.aircompany.entity.Airport;
+import by.pvt.kish.aircompany.pojos.Airport;
+import by.pvt.kish.aircompany.utils.HibernateUtil;
+import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,19 +19,24 @@ public class AirportDAOTest {
     private AirportDAO airportDAO;
     private Long id;
     private Airport testAirport;
+    private HibernateUtil util = HibernateUtil.getUtil();
+    private Transaction transaction;
 
     @Before
     public void setUp() throws Exception {
         airportDAO = AirportDAO.getInstance();
         testAirport = new Airport();
         testAirport.setCity("testCity");
+
+        transaction = util.getSession().beginTransaction();
         id = airportDAO.add(testAirport);
     }
 
     @Test
     public void testAdd() throws Exception {
         Airport addedAirport = airportDAO.getById(id);
-        assertEquals("Add method failed: wrong city", addedAirport.getCity(), testAirport.getCity());
+        assertEquals("Add method failed", addedAirport, testAirport);
+        airportDAO.delete(id);
     }
 
     @Test
@@ -39,17 +46,16 @@ public class AirportDAOTest {
         prepareToUpdateAirport.setCity("updatedCity");
         airportDAO.update(prepareToUpdateAirport);
         Airport updatedAirport = airportDAO.getById(id);
-        assertEquals("Update method failed: wrong aid", prepareToUpdateAirport.getAid(), updatedAirport.getAid());
-        assertEquals("Update method failed: wrong city", prepareToUpdateAirport.getCity(), updatedAirport.getCity());
+        assertEquals("Update method failed", prepareToUpdateAirport, updatedAirport);
+        airportDAO.delete(id);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        int beforeAddNumber = airportDAO.getAll().size();
-        Long getAllId = airportDAO.add(testAirport);
-        int afterAddNumber = airportDAO.getAll().size();
-        assertEquals("Get all method failed", beforeAddNumber, afterAddNumber - 1);
-        airportDAO.delete(getAllId);
+        Long countAirports = (long) airportDAO.getAll().size();
+        Long countLines = airportDAO.getCount();
+        assertEquals("Get all method failed", countLines, countAirports);
+        airportDAO.delete(id);
     }
 
     @Test
@@ -60,6 +66,6 @@ public class AirportDAOTest {
 
     @After
     public void tearDown() throws Exception {
-        airportDAO.delete(id);
+        transaction.commit();
     }
 }

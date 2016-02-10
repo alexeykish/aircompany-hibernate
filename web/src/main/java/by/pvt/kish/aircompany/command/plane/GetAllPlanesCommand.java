@@ -3,7 +3,7 @@ package by.pvt.kish.aircompany.command.plane;
 import by.pvt.kish.aircompany.command.ActionCommand;
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.PlaneService;
 import by.pvt.kish.aircompany.utils.ErrorHandler;

@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.utils;
 
-import by.pvt.kish.aircompany.entity.Plane;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class TeamCreator {
      */
     public static List<String> getPlanePositions(Plane plane) {
         List<String> positions = new ArrayList<>();
-        Map<Position, Integer> team = plane.getTeam();
+        Map<Position, Integer> team = plane.getPlaneCrew();
         for (int i = 0; i < team.get(Position.PILOT); i++) {
             positions.add(Position.PILOT.toString());
         }

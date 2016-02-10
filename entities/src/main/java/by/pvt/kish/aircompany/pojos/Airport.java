@@ -1,6 +1,8 @@
-package by.pvt.kish.aircompany.entity;
+package by.pvt.kish.aircompany.pojos;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * This class represents the Airport model.
@@ -10,19 +12,30 @@ import java.io.Serializable;
  *
  * @author Kish Alexey
  */
+@Entity
 public class Airport implements Serializable {
+
+    @Id
+    @GeneratedValue
+    @Column
     private Long aid;
+
+    @Column(nullable = false)
     private String city;
+
+    @OneToMany(mappedBy = "departure")
+    private Set<Flight> derartureFlights;
+
+    @OneToMany(mappedBy = "arrival")
+    private Set<Flight> arrivalFlights;
 
     public Airport() {
     }
 
     /**
-     * @param aid  - airport id
      * @param city - the place where the airport is located
      */
-    public Airport(Long aid, String city) {
-        this.aid = aid;
+    public Airport(String city) {
         this.city = city;
     }
 
@@ -67,5 +80,21 @@ public class Airport implements Serializable {
                 "aid=" + aid +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+    public Set<Flight> getDerartureFlights() {
+        return derartureFlights;
+    }
+
+    public void setDerartureFlights(Set<Flight> derartureFlights) {
+        this.derartureFlights = derartureFlights;
+    }
+
+    public Set<Flight> getArrivalFlights() {
+        return arrivalFlights;
+    }
+
+    public void setArrivalFlights(Set<Flight> arrivalFlights) {
+        this.arrivalFlights = arrivalFlights;
     }
 }

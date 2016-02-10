@@ -1,6 +1,6 @@
 package by.pvt.kish.aircompany.validators;
 
-import by.pvt.kish.aircompany.entity.Flight;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.enums.FlightStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.FlightService;
@@ -71,7 +71,7 @@ public class FlightStatusValidator {
     }
 
     private static String checkTeam(Flight flight) {
-        if (flight.getTeam().size() > 0) {
+        if (flight.getCrew().size() > 0) {
             return MATCHED;
         } else {
             return EMPTY;

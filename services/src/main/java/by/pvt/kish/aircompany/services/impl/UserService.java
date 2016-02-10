@@ -2,7 +2,7 @@ package by.pvt.kish.aircompany.services.impl;
 
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.dao.impl.UserDAO;
-import by.pvt.kish.aircompany.entity.User;
+import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
@@ -103,15 +103,6 @@ public class UserService extends BaseService<User> implements IUserService {
             throw new ServiceException(e);
         }
         return user;
-    }
-
-    @Override
-    public boolean checkStatus(Long id) throws ServiceException {
-        try {
-            return userDAO.checkStatus(id);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
     }
 
     @Override
