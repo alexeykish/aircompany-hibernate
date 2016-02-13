@@ -1,31 +1,34 @@
 package by.pvt.kish.aircompany.utils;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.pojos.Employee;
-import by.pvt.kish.aircompany.pojos.Flight;
-import by.pvt.kish.aircompany.pojos.Plane;
-import by.pvt.kish.aircompany.pojos.User;
 import by.pvt.kish.aircompany.enums.FlightStatus;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.enums.UserStatus;
 import by.pvt.kish.aircompany.enums.UserType;
 import by.pvt.kish.aircompany.exceptions.RequestHandlerException;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
+import by.pvt.kish.aircompany.pojos.*;
 import by.pvt.kish.aircompany.services.impl.AirportService;
 import by.pvt.kish.aircompany.services.impl.PlaneService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
+ * Utility class that handle request parameters and return concrete entities
+ *
  * @author Kish Alexey
  */
 public class RequestHandler {
 
+    /**
+     * Creates flight object from http request, check request parameters for null
+     * @param request - The http request to handle
+     * @return - The flight entity, null if one of the parameters is null or empty
+     * @throws ServiceException
+     */
     public static Flight getFlight(HttpServletRequest request) throws ServiceException {
         Flight flight = new Flight();
         String date = request.getParameter("date");
@@ -39,8 +42,8 @@ public class RequestHandler {
             return null;
         }
         flight.setDate(Date.valueOf(date.trim()));
-        flight.setTo(AirportService.getInstance().getById(Long.parseLong(to.trim())));
-        flight.setFrom(AirportService.getInstance().getById(Long.parseLong(from.trim())));
+        flight.setArrival(AirportService.getInstance().getById(Long.parseLong(to.trim())));
+        flight.setDeparture(AirportService.getInstance().getById(Long.parseLong(from.trim())));
         flight.setPlane(PlaneService.getInstance().getById(Long.parseLong(pid.trim())));
         Long id = RequestHandler.getId(request, "fid");
         if (id > 0) {
@@ -51,6 +54,11 @@ public class RequestHandler {
         return flight;
     }
 
+    /**
+     * Checks string for null or empty string
+     * @param string - checked string
+     * @return true if string is null or empty
+     */
     private static boolean checkNull(String string) {
         return string == null || string.trim().equals("");
     }
@@ -63,6 +71,12 @@ public class RequestHandler {
         return Long.parseLong(id);
     }
 
+    /**
+     * Get flight status from http request parameter
+     * @param request - The http request to handle
+     * @return - The flight status
+     * @throws ServiceException
+     */
     public static FlightStatus getFlightStatus(HttpServletRequest request) throws ServiceException {
         String status = request.getParameter("status");
         if (status == null) {
@@ -109,13 +123,14 @@ public class RequestHandler {
         }
         plane.setModel(model.trim());
         plane.setCapacity(Integer.parseInt(capacity.trim()));
-        plane.setRange(Integer.parseInt(range.trim()));
-        Map<Position, Integer> team = new HashMap<>();
-        team.put(Position.PILOT, Integer.parseInt(num_pilots));
-        team.put(Position.NAVIGATOR, Integer.parseInt(num_navigators));
-        team.put(Position.RADIOOPERATOR, Integer.parseInt(num_navigators));
-        team.put(Position.STEWARDESS, Integer.parseInt(num_stewardess));
+        plane.setFlightRange(Integer.parseInt(range.trim()));
+        PlaneCrew team = new PlaneCrew();
+        team.setNumberOfPilots(Integer.parseInt(num_pilots));
+        team.setNumberOfNavigators(Integer.parseInt(num_navigators));
+        team.setNumberOfRadiooperators(Integer.parseInt(num_navigators));
+        team.setNumberOfStewardesses(Integer.parseInt(num_stewardess));
         plane.setPlaneCrew(team);
+        team.setPlane(plane);
         Long id = RequestHandler.getId(request, "pid");
         if (id > 0) {
             plane.setPid(id);

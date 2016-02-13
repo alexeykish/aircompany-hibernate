@@ -53,6 +53,10 @@ public interface IDAO<T> {
      */
     void delete(Long id) throws DaoException;
 
-
-    Long getCount() throws DaoException;
+    /**
+     * Returns the number of entities in the DB
+     *
+     * @throws DaoException If something fails at DB level
+     */
+    int getCount() throws DaoException;
 }

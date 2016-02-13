@@ -2,12 +2,11 @@ package by.pvt.kish.aircompany.command.employee;
 
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Page;
-import by.pvt.kish.aircompany.pojos.Employee;
-import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
+import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
-import by.pvt.kish.aircompany.services.impl.FlightService;
 import by.pvt.kish.aircompany.utils.ErrorHandler;
 import by.pvt.kish.aircompany.utils.RequestHandler;
 
@@ -26,7 +25,7 @@ public class EmployeeReportCommand implements by.pvt.kish.aircompany.command.Act
         try {
             Long id = RequestHandler.getId(request, "eid");
             Employee employee = EmployeeService.getInstance().getById(id);
-            List<Flight> flights = FlightService.getInstance().getEmployeeLastFiveFlights(employee.getEid());
+            List<Flight> flights = EmployeeService.getInstance().getEmployeeLastFiveFlights(employee.getEid());
             boolean permissionChangeDeleteStatus = flights.size() != 0;
             List<EmployeeStatus> employeeStatuses = Arrays.asList(EmployeeStatus.values());
 

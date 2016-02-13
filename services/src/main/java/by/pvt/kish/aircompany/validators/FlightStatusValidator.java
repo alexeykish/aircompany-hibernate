@@ -25,32 +25,32 @@ public class FlightStatusValidator {
         for (Flight flight : flights) {
             if (checkDate(flight).equals(FUTURE) && checkTeam(flight).equals(EMPTY)) {
                 if (flight.getStatus() != (FlightStatus.CREATED)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CREATED.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CREATED);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.CREATED);
                 }
             } else if (checkDate(flight).equals(FUTURE) && checkTeam(flight).equals(MATCHED)) {
                 if (flight.getStatus() != (FlightStatus.READY)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.READY.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.READY);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.READY);
                 }
             } else if (checkDate(flight).equals(TODAY) && checkTeam(flight).equals(EMPTY)) {
                 if (flight.getStatus() != (FlightStatus.CANCELED)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CANCELED.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CANCELED);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.CANCELED);
                 }
             } else if (checkDate(flight).equals(TODAY) && checkTeam(flight).equals(MATCHED)) {
                 if (flight.getStatus() != (FlightStatus.DEPARTED)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.DEPARTED.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.DEPARTED);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.DEPARTED);
                 }
             } else if (checkDate(flight).equals(PAST) && checkTeam(flight).equals(EMPTY)) {
                 if (flight.getStatus() != (FlightStatus.CANCELED)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CANCELED.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.CANCELED);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.CANCELED);
                 }
             } else if (checkDate(flight).equals(PAST) && checkTeam(flight).equals(MATCHED)) {
                 if (flight.getStatus() != (FlightStatus.ARRIVAL)){
-                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.ARRIVAL.toString());
+                    FlightService.getInstance().setStatus(flight.getFid(), FlightStatus.ARRIVAL);
                     logger.info("Flight #" + flight.getFid() + " status changed to " + FlightStatus.ARRIVAL);
                 }
             }

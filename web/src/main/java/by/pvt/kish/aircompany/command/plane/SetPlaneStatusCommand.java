@@ -22,7 +22,7 @@ public class SetPlaneStatusCommand implements by.pvt.kish.aircompany.command.Act
         String className = SetPlaneStatusCommand.class.getName();
         try {
             Long id = RequestHandler.getId(request, "pid");
-            PlaneService.getInstance().setStatus(id, RequestHandler.getString(request, "status"));
+            PlaneService.getInstance().setStatus(id, PlaneStatus.valueOf(RequestHandler.getString(request, "status")));
             request.setAttribute(Attribute.MESSAGE_ATTRIBUTE, Message.SUCCESS_SET_STATUS_PLANE);
             return Page.MAIN;
         } catch (ServiceException e) {

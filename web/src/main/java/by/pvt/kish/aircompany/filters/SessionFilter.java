@@ -4,6 +4,10 @@
  */
 package by.pvt.kish.aircompany.filters;
 
+import by.pvt.kish.aircompany.utils.HibernateUtil;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
 import javax.servlet.*;
 import java.io.IOException;
 
@@ -12,14 +16,17 @@ import java.io.IOException;
  *
  * @author Kish Alexey
  */
-public class ConfigFilter implements Filter {
+public class SessionFilter implements Filter {
+
+	private static Logger logger = Logger.getLogger(SessionFilter.class);
 
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		request.setCharacterEncoding("UTF-8");
+		Session session = HibernateUtil.getUtil().getSession();
 		chain.doFilter(request, response);
+		HibernateUtil.getUtil().closeSession(session);
 
 	}
 

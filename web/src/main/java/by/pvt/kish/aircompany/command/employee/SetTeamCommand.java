@@ -1,7 +1,7 @@
 /**
  *
  */
-package by.pvt.kish.aircompany.command.team;
+package by.pvt.kish.aircompany.command.employee;
 
 import by.pvt.kish.aircompany.command.ActionCommand;
 import by.pvt.kish.aircompany.constants.Attribute;
@@ -12,7 +12,6 @@ import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
 import by.pvt.kish.aircompany.services.impl.FlightService;
 import by.pvt.kish.aircompany.services.impl.PlaneService;
-import by.pvt.kish.aircompany.services.impl.TeamService;
 import by.pvt.kish.aircompany.utils.ErrorHandler;
 import by.pvt.kish.aircompany.utils.RequestHandler;
 import by.pvt.kish.aircompany.utils.TeamCreator;
@@ -31,15 +30,15 @@ public class SetTeamCommand implements ActionCommand {
         String className = SetTeamCommand.class.getSimpleName();
         try {
             Long id = RequestHandler.getId(request, "fid");
-            List<Employee> team = TeamService.getInstance().getById(id);
+            List<Employee> crew = EmployeeService.getInstance().getFlightCrewByFlightId(id);
             Flight flight = FlightService.getInstance().getById(id);
             List<Employee> employees = EmployeeService.getInstance().getAllAvailable(flight.getDate());
             List<String> positions = TeamCreator.getPlanePositions(PlaneService.getInstance().getById(flight.getPlane().getPid()));
             request.setAttribute(Attribute.FLIGHT_ATTRIBUTE, flight);
             request.setAttribute(Attribute.EMPLOYEES_ATTRIBUTE, employees);
             request.setAttribute(Attribute.POSITIONS_ATTRIBUTE, positions);
-            if (team.size() != 0) {
-                request.setAttribute(Attribute.TEAM_ATTRIBUTE, team);
+            if (crew.size() != 0) {
+                request.setAttribute(Attribute.TEAM_ATTRIBUTE, crew);
                 return Page.CHANGE_TEAM;
             }
         } catch (ServiceException e) {

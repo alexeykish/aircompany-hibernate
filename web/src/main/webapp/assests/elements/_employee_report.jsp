@@ -59,8 +59,8 @@
                         <tr>
                             <td>${flight.fid}</td>
                             <td>${flight.date}</td>
-                            <td>${flight.from.city}</td>
-                            <td>${flight.to.city}</td>
+                            <td>${flight.departure.name}</td>
+                            <td>${flight.arrival.name}</td>
                             <td>${flight.status}</td>
                         </tr>
                     </c:forEach>

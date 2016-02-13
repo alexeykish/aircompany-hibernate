@@ -10,13 +10,14 @@
             <th>MODEL</th>
             <th>PASSENGER CAPACITY</th>
             <th>FLIGHT RANGE, KM</th>
+            <th>STATUS</th>
         </tr>
         <c:forEach items="${requestScope.planes}" var="plane">
             <tr>
                 <td>${plane.pid}</td>
                 <td>${plane.model}</td>
                 <td>${plane.capacity}</td>
-                <td>${plane.range}</td>
+                <td>${plane.flightRange}</td>
                 <td>${plane.status}</td>
                 <td style="width: 70px;">
                     <form action="controller" method="post">

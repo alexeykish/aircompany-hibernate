@@ -2,6 +2,8 @@ package by.pvt.kish.aircompany.pojos;
 
 import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.enums.Position;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,27 +19,64 @@ import java.util.Set;
  * @author Kish Alexey
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee implements Serializable {
     @Id
     @GeneratedValue
     @Column
+    public Long getEid() {
+        return eid;
+    }
+    public void setEid(Long eid) {
+        this.eid = eid;
+    }
     private Long eid;
 
     @Column(nullable = false)
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
     private String firstName;
 
     @Column(nullable = false)
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "enum('PILOT','NAVIGATOR','RADIOOPERATOR','STEWARDESS')")
+    public Position getPosition() {
+        return position;
+    }
+    public void setPosition(Position position) {
+        this.position = position;
+    }
     private Position position;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('AVAILABLE','BUSY','BLOCKED')", insertable = false)
+    @Column(columnDefinition = "enum('AVAILABLE','BUSY','BLOCKED')")
+    public EmployeeStatus getStatus() {
+        return status;
+    }
+    public void setStatus(EmployeeStatus status) {
+        this.status = status;
+    }
     private EmployeeStatus status = EmployeeStatus.AVAILABLE;
 
     @ManyToMany(mappedBy = "crew")
+    public Set<Flight> getFlights() {
+        return flights;
+    }
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
+    }
     private Set<Flight> flights = new HashSet<>();
 
     public Employee() {
@@ -79,53 +118,6 @@ public class Employee implements Serializable {
         return result;
     }
 
-    public Long getEid() {
-        return eid;
-    }
-
-    public void setEid(Long eid) {
-        this.eid = eid;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public EmployeeStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EmployeeStatus status) {
-        this.status = status;
-    }
-
-    public Set<Flight> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(Set<Flight> flights) {
-        this.flights = flights;
-    }
     @Override
     public String toString() {
         return "Employee{" +
@@ -136,6 +128,4 @@ public class Employee implements Serializable {
                 ", status=" + status +
                 '}';
     }
-
-
 }

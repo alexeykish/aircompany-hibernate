@@ -1,6 +1,7 @@
 package by.pvt.kish.aircompany.dao;
 
 import by.pvt.kish.aircompany.dao.impl.AirportDAO;
+import by.pvt.kish.aircompany.pojos.Address;
 import by.pvt.kish.aircompany.pojos.Airport;
 import by.pvt.kish.aircompany.utils.HibernateUtil;
 import org.hibernate.Transaction;
@@ -16,18 +17,19 @@ import static org.junit.Assert.assertNull;
  */
 public class AirportDAOTest {
 
-    private AirportDAO airportDAO;
+    private AirportDAO airportDAO = AirportDAO.getInstance();
     private Long id;
     private Airport testAirport;
+    private Address testAddress;
     private HibernateUtil util = HibernateUtil.getUtil();
     private Transaction transaction;
 
     @Before
     public void setUp() throws Exception {
-        airportDAO = AirportDAO.getInstance();
+        testAddress = new Address("testCountry", "testCity");
         testAirport = new Airport();
-        testAirport.setCity("testCity");
-
+        testAirport.setName("testName");
+        testAirport.setAddress(testAddress);
         transaction = util.getSession().beginTransaction();
         id = airportDAO.add(testAirport);
     }
@@ -43,7 +45,7 @@ public class AirportDAOTest {
     public void testUpdate() throws Exception {
         Airport prepareToUpdateAirport = new Airport();
         prepareToUpdateAirport.setAid(id);
-        prepareToUpdateAirport.setCity("updatedCity");
+        prepareToUpdateAirport.setName("updatedCity");
         airportDAO.update(prepareToUpdateAirport);
         Airport updatedAirport = airportDAO.getById(id);
         assertEquals("Update method failed", prepareToUpdateAirport, updatedAirport);
@@ -52,8 +54,8 @@ public class AirportDAOTest {
 
     @Test
     public void testGetAll() throws Exception {
-        Long countAirports = (long) airportDAO.getAll().size();
-        Long countLines = airportDAO.getCount();
+        int countAirports = airportDAO.getAll().size();
+        int countLines = airportDAO.getCount();
         assertEquals("Get all method failed", countLines, countAirports);
         airportDAO.delete(id);
     }

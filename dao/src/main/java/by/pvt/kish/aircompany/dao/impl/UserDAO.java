@@ -23,7 +23,7 @@ public class UserDAO extends BaseDAO<User> implements IUserDAO {
 
     private static final String HQL_CHECK_LOGIN = "SELECT U.uid FROM User U WHERE U.login=:login ";
     private static final String HQL_GET_USER = "SELECT U FROM User U WHERE U.login=:login AND U.password=:password";
-    private static final String HQL_UPDATE_USER_STATUS = "update From User U set U.status =:status where U.uid =:id";
+    private static final String HQL_UPDATE_USER_STATUS = "update From User U set U.status =:userstatus where U.uid =:uid";
 
     private static final String CHECK_LOGIN_USER_FAILED = "Check user login failed";
     private static final String GET_USER_FAILED = "Get user by login and password failed";
@@ -82,7 +82,7 @@ public class UserDAO extends BaseDAO<User> implements IUserDAO {
      */
     @Override
     public User getUser(String login, String password) throws DaoException {
-        User user = null;
+        User user;
         try {
             Session session = util.getSession();
             Query query = session.createQuery(HQL_GET_USER);
@@ -107,8 +107,8 @@ public class UserDAO extends BaseDAO<User> implements IUserDAO {
         try {
             Session session = util.getSession();
             Query query = session.createQuery(HQL_UPDATE_USER_STATUS);
-            query.setParameter("status",status);
-            query.setParameter("id",id);
+            query.setParameter("userstatus",status);
+            query.setParameter("uid",id);
             query.executeUpdate();
         } catch (HibernateException e) {
             throw new DaoException(UPDATE_USER_STATUS_FAILED);

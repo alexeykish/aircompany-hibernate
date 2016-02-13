@@ -20,34 +20,27 @@ public class AirportServiceTest {
     @Before
     public void setUp() throws Exception {
         testAirport = new Airport();
-        testAirport.setCity("testCity");
+        testAirport.setName("testCity");
         id = airportService.add(testAirport);
     }
 
     @Test
     public void testAdd() throws Exception {
         Airport addedAirport = airportService.getById(id);
-        assertEquals("Add method failed: wrong city", addedAirport.getCity(), testAirport.getCity());
+        assertEquals("Add method failed: wrong city", addedAirport.getName(), testAirport.getName());
+        airportService.delete(id);
     }
 
     @Test
     public void testUpdate() throws Exception {
         Airport prepareToUpdateAirport = new Airport();
         prepareToUpdateAirport.setAid(id);
-        prepareToUpdateAirport.setCity("updatedCity");
+        prepareToUpdateAirport.setName("updatedCity");
         airportService.update(prepareToUpdateAirport);
         Airport updatedAirport = airportService.getById(id);
         assertEquals("Update method failed: wrong aid", prepareToUpdateAirport.getAid(), updatedAirport.getAid());
-        assertEquals("Update method failed: wrong city", prepareToUpdateAirport.getCity(), updatedAirport.getCity());
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        int beforeAddNumber = airportService.getAll().size();
-        Long getAllId = airportService.add(testAirport);
-        int afterAddNumber = airportService.getAll().size();
-        assertEquals("Get all method failed", beforeAddNumber, afterAddNumber-1);
-        airportService.delete(getAllId);
+        assertEquals("Update method failed: wrong city", prepareToUpdateAirport.getName(), updatedAirport.getName());
+        airportService.delete(id);
     }
 
     @Test
@@ -58,6 +51,5 @@ public class AirportServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        airportService.delete(id);
     }
 }

@@ -63,8 +63,8 @@ public class UserDAOTest {
 
     @Test
     public void testGetAll() throws Exception {
-        Long count = (long) userDao.getAll().size();
-        Long countFact = userDao.getCount();
+        int count = userDao.getAll().size();
+        int countFact = userDao.getCount();
         assertEquals("Get all method failed", count, countFact);
         userDao.delete(id);
 

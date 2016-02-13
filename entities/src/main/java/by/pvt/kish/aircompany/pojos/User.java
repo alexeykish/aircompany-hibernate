@@ -22,29 +22,77 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue
+    public Long getUid() {
+        return uid;
+    }
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
     private Long uid;
 
     @Column(nullable = false)
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
     private String firstName;
 
     @Column(nullable = false)
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
     private String lastName;
 
     @Column(nullable = false, unique = true)
+    public String getLogin() {
+        return login;
+    }
+    public void setLogin(String login) {
+        this.login = login;
+    }
     private String login;
 
     @Column(nullable = false)
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
     private String password;
 
     @Column(nullable = false)
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('ADMINISTRATOR','DISPATCHER')")
+    public UserType getUserType() {
+        return userType;
+    }
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
     private UserType userType;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('ONLINE','OFFLINE')", insertable = false)
+    @Column(columnDefinition = "enum('ONLINE','OFFLINE')")
+    public UserStatus getStatus() {
+        return status;
+    }
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
     private UserStatus status = UserStatus.OFFLINE;
 
     public User() {
@@ -99,70 +147,6 @@ public class User implements Serializable {
         result = 31 * result + (userType != null ? userType.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
-    }
-
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 
     @Override

@@ -3,6 +3,7 @@ package by.pvt.kish.aircompany.command.employee;
 import by.pvt.kish.aircompany.constants.Attribute;
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.constants.Page;
+import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.exceptions.RequestHandlerException;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
@@ -21,7 +22,7 @@ public class SetEmployeeStatusCommand implements by.pvt.kish.aircompany.command.
         String className = SetEmployeeStatusCommand.class.getName();
         try {
             Long id = RequestHandler.getId(request, "eid");
-            EmployeeService.getInstance().setStatus(id, RequestHandler.getString(request, "status"));
+            EmployeeService.getInstance().setStatus(id, EmployeeStatus.valueOf(RequestHandler.getString(request, "status")));
 
             request.setAttribute(Attribute.MESSAGE_ATTRIBUTE, Message.SUCCESS_SET_STATUS_EMPLOYEE);
 

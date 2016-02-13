@@ -1,14 +1,16 @@
 package by.pvt.kish.aircompany.command;
 
+import by.pvt.kish.aircompany.command.airport.AddAirportCommand;
 import by.pvt.kish.aircompany.command.airport.DeleteAirportCommand;
 import by.pvt.kish.aircompany.command.airport.GetAllAirportsCommand;
 import by.pvt.kish.aircompany.command.airport.UpdateAirportCommand;
-import by.pvt.kish.aircompany.command.plane.*;
-import by.pvt.kish.aircompany.command.flight.*;
 import by.pvt.kish.aircompany.command.employee.*;
-import by.pvt.kish.aircompany.command.team.*;
-import by.pvt.kish.aircompany.command.user.*;
-import by.pvt.kish.aircompany.command.airport.AddAirportCommand;
+import by.pvt.kish.aircompany.command.flight.*;
+import by.pvt.kish.aircompany.command.plane.*;
+import by.pvt.kish.aircompany.command.user.GetAllUsersCommand;
+import by.pvt.kish.aircompany.command.user.LoginUserCommand;
+import by.pvt.kish.aircompany.command.user.LogoutUserCommand;
+import by.pvt.kish.aircompany.command.user.RegisterUserCommand;
 
 /**
  * @author Kish Alexey
@@ -44,10 +46,8 @@ public enum CommandEnum {
     DELETE_AIRPORT_COMMAND			 	{	{this.command = new DeleteAirportCommand();	        }	},
     UPDATE_AIRPORT_COMMAND            	{	{this.command = new UpdateAirportCommand();	        }	},
 
-    DELETE_TEAM_COMMAND				 	{	{this.command = new DeleteTeamCommand();	    	}	},
     SET_TEAM_COMMAND					{	{this.command = new SetTeamCommand();           	}	},
     SAVE_TEAM_TO_FLIGHT_COMMAND	    	{	{this.command = new SaveTeamToFlightCommand();      }	};
-    //TODO user commands (block, delete, update)
 
     ActionCommand command;
 

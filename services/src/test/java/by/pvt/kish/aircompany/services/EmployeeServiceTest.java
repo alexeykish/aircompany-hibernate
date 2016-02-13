@@ -1,13 +1,13 @@
 package by.pvt.kish.aircompany.services;
 
-import by.pvt.kish.aircompany.pojos.Employee;
 import by.pvt.kish.aircompany.enums.Position;
+import by.pvt.kish.aircompany.pojos.Employee;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Kish Alexey
@@ -27,17 +27,12 @@ public class EmployeeServiceTest {
         id = employeeService.add(testEmployee);
     }
 
-    @After
-    public void tearDown() throws Exception {
-        employeeService.delete(id);
-    }
-
     @Test
     public void testAdd() throws Exception {
         Employee addedEmployee = employeeService.getById(id);
-        assertEquals("Add method failed: wrong firstname", addedEmployee.getFirstName(), testEmployee.getFirstName());
-        assertEquals("Add method failed: wrong lastname", addedEmployee.getLastName(), testEmployee.getLastName());
-        assertEquals("Add method failed: wrong position", addedEmployee.getPosition(), testEmployee.getPosition());
+        addedEmployee.setEid(id);
+        assertEquals("Add method failed: wrong firstname", addedEmployee, testEmployee);
+        employeeService.delete(id);
     }
 
     @Test
@@ -49,19 +44,8 @@ public class EmployeeServiceTest {
         prepareToUpdateEmployee.setPosition(Position.NAVIGATOR);
         employeeService.update(prepareToUpdateEmployee);
         Employee updatedEmployee = employeeService.getById(id);
-        assertEquals("Update method failed: wrong eid", updatedEmployee.getEid(), prepareToUpdateEmployee.getEid());
-        assertEquals("Update method failed: wrong firstname", updatedEmployee.getFirstName(), prepareToUpdateEmployee.getFirstName());
-        assertEquals("Update method failed: wrong lastname", updatedEmployee.getLastName(), prepareToUpdateEmployee.getLastName());
-        assertEquals("Update method failed: wrong position", updatedEmployee.getPosition(), prepareToUpdateEmployee.getPosition());
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        int beforeAddNumber = employeeService.getAll().size();
-        Long getAllId = employeeService.add(testEmployee);
-        int afterAddNumber = employeeService.getAll().size();
-        assertEquals("Get all method failed", beforeAddNumber, afterAddNumber-1);
-        employeeService.delete(getAllId);
+        assertEquals("Update method failed: wrong eid", updatedEmployee, prepareToUpdateEmployee);
+        employeeService.delete(id);
     }
 
     @Test

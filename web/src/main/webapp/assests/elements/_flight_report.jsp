@@ -11,11 +11,11 @@
         </tr>
         <tr>
             <td>Departure from:</td>
-            <td>${requestScope.flight.from.city}</td>
+            <td>${requestScope.flight.departure.name}</td>
         </tr>
         <tr>
             <td>Arrival to:</td>
-            <td>${requestScope.flight.to.city}</td>
+            <td>${requestScope.flight.arrival.name}</td>
         </tr>
         <tr>
             <td>Plane:</td>
@@ -45,11 +45,11 @@
                 <form action="controller" method="post">
                     <input type="hidden" name="command" value="set_team_command"/>
                     <input type="hidden" name="fid" value="${requestScope.flight.fid}"/>
-                    <c:if test="${(requestScope.flight.team.size() == 0)}">
+                    <c:if test="${(requestScope.flight.crew.size() == 0)}">
                         <input class="table-button" style="width: 90px;  color:red;" type="submit" name="submit"
                                value="set flight team"/>
                     </c:if>
-                    <c:if test="${(requestScope.flight.team.size() != 0)}">
+                    <c:if test="${(requestScope.flight.crew.size() != 0)}">
                         <input class="table-button" style="width: 90px;" type="submit" name="submit"
                                value="change flight team"/>
                     </c:if>
@@ -65,7 +65,7 @@
                     <th>Lastname</th>
                     <th>Position</th>
                 </tr>
-                <c:forEach items="${requestScope.flight.team}" var="employee">
+                <c:forEach items="${requestScope.flight.crew}" var="employee">
                     <tr>
                         <td>${employee.eid}</td>
                         <td>${employee.firstName}</td>

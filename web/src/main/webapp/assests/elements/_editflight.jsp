@@ -19,10 +19,10 @@
 			<tr>
 				<td class="input-label">From:</td>
 					<td><select class="inputForm" name="from" title="from">
-						<option value="${requestScope.flight.from.aid}">${requestScope.flight.from.city}</option>
+						<option value="${requestScope.flight.departure.aid}">${requestScope.flight.departure.name}</option>
 						<c:forEach items="${requestScope.airports}" var="airport">
-							<c:if test="${requestScope.flight.to.aid != airport.aid}">
-								<option value="${airport.aid}">${airport.city}</option>
+							<c:if test="${requestScope.flight.departure.aid != airport.aid}">
+								<option value="${airport.aid}">${airport.name}</option>
 							</c:if>
 						</c:forEach>
 				</select></td>
@@ -30,10 +30,10 @@
 			<tr>
 				<td class="input-label">To:</td>
 				<td><select class="inputForm" name="to" title="to">
-						<option value="${requestScope.flight.to.aid}">${requestScope.flight.to.city}</option>
+						<option value="${requestScope.flight.arrival.aid}">${requestScope.flight.arrival.name}</option>
 						<c:forEach items="${requestScope.airports}" var="airport">
-							<c:if test="${requestScope.flight.to.aid != airport.aid}">
-								<option value="${airport.aid}">${airport.city}</option>
+							<c:if test="${requestScope.flight.arrival.aid != airport.aid}">
+								<option value="${airport.aid}">${airport.name}</option>
 							</c:if>
 						</c:forEach>
 				</select></td>

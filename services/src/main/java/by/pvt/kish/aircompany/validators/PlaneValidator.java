@@ -2,7 +2,6 @@ package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
 import by.pvt.kish.aircompany.pojos.Plane;
-import by.pvt.kish.aircompany.enums.Position;
 
 /**
  * Describes the utility class to test the Plane object before adding or changing it in the DB
@@ -36,11 +35,11 @@ public class PlaneValidator implements IValidator<Plane> {
                 (plane.getModel() == null) ||
                 (plane.getModel().equals("")) ||
                 (plane.getCapacity() < 1) ||
-                (plane.getRange() < 1) ||
+                (plane.getFlightRange() < 1) ||
                 (plane.getPlaneCrew() == null) ||
-                (plane.getPlaneCrew().get(Position.PILOT) <= 0) ||
-                (plane.getPlaneCrew().get(Position.NAVIGATOR) <= 0) ||
-                (plane.getPlaneCrew().get(Position.RADIOOPERATOR) <= 0) ||
-                (plane.getPlaneCrew().get(Position.STEWARDESS) <= 0);
+                (plane.getPlaneCrew().getNumberOfPilots() <= 0) ||
+                (plane.getPlaneCrew().getNumberOfNavigators() <= 0) ||
+                (plane.getPlaneCrew().getNumberOfRadiooperators() <= 0) ||
+                (plane.getPlaneCrew().getNumberOfStewardesses() <= 0);
     }
 }

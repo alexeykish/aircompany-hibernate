@@ -1,15 +1,13 @@
 package by.pvt.kish.aircompany.utils;
 
 import by.pvt.kish.aircompany.pojos.Plane;
-import by.pvt.kish.aircompany.enums.Position;
+import by.pvt.kish.aircompany.pojos.PlaneCrew;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Kish Alexey
@@ -24,13 +22,13 @@ public class TeamCreatorTest {
         testPlane = new Plane();
         testPlane.setModel("testModel");
         testPlane.setCapacity(99999999);
-        testPlane.setRange(99999999);
-        Map<Position, Integer> testTeam = new TreeMap<>();
+        testPlane.setFlightRange(99999999);
+        PlaneCrew testTeam = new PlaneCrew();
         numberOfPositions = 100;
-        testTeam.put(Position.PILOT, numberOfPositions);
-        testTeam.put(Position.NAVIGATOR, numberOfPositions);
-        testTeam.put(Position.RADIOOPERATOR, numberOfPositions);
-        testTeam.put(Position.STEWARDESS, numberOfPositions);
+        testTeam.setNumberOfPilots(numberOfPositions);
+        testTeam.setNumberOfNavigators(numberOfPositions);
+        testTeam.setNumberOfRadiooperators(numberOfPositions);
+        testTeam.setNumberOfStewardesses(numberOfPositions);
         testPlane.setPlaneCrew(testTeam);
     }
 

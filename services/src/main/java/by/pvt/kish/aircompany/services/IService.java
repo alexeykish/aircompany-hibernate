@@ -42,9 +42,9 @@ public interface IService<T> {
     List<T> getAll() throws ServiceException;
 
     /**
-     * Delete the given pojos
+     * Delete the given Entity
      *
-     * @param id - ID of the pojos to be deleted
+     * @param id - ID of the entity to be deleted
      * @throws ServiceException - if something fails at Service layer
      */
     void delete(Long id) throws ServiceException;
@@ -52,8 +52,8 @@ public interface IService<T> {
     /**
      * Returns the Entity matching the given ID
      *
-     * @param id - The ID of the pojos to be returned
-     * @return - the pojos
+     * @param id - The ID of the Entity to be returned
+     * @return - the Entity matching the given ID
      * @throws ServiceException - if something fails at Service layer
      */
     T getById(Long id) throws ServiceException;

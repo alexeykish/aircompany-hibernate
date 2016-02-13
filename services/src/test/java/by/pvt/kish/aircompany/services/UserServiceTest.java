@@ -36,40 +36,24 @@ public class UserServiceTest {
     @Test
     public void testAdd() throws Exception {
         User addedUser = userService.getById(id);
-        assertEquals("Add method failed: wrong firstname", testUser.getFirstName(), addedUser.getFirstName());
-        assertEquals("Add method failed: wrong lastname", testUser.getLastName(), addedUser.getLastName());
-        assertEquals("Add method failed: wrong login", testUser.getLogin(), addedUser.getLogin());
-        assertEquals("Add method failed: wrong email", testUser.getEmail(), addedUser.getEmail());
-        assertEquals("Add method failed: wrong usertype", testUser.getUserType(), addedUser.getUserType());
-        assertEquals("Add method failed: wrong status", testUser.getStatus(), addedUser.getStatus());
+        testUser.setUid(id);
+        assertEquals("Add method failed: wrong firstname", testUser, addedUser);
+        userService.delete(id);
     }
 
     @Test
     public void testCheckLogin() throws Exception {
         assertFalse("CheckLogin method positive test failed", userService.checkLogin(testUser.getLogin()));
         assertTrue("CheckLogin method negative test failed", userService.checkLogin("wrongLogin"));
+        userService.delete(id);
     }
 
     @Test
     public void testGetUser() throws Exception {
-        User gettedUser = userService.getUser(testUser.getLogin(),testUser.getPassword());
-        assertEquals("Get method failed: wrong firstname", testUser.getFirstName(), gettedUser.getFirstName());
-        assertEquals("Get method failed: wrong lastname", testUser.getLastName(), gettedUser.getLastName());
-        assertEquals("Get method failed: wrong login", testUser.getLogin(), gettedUser.getLogin());
-        assertEquals("Get method failed: wrong email", testUser.getEmail(), gettedUser.getEmail());
-        assertEquals("Get method failed: wrong usertype", testUser.getUserType(), gettedUser.getUserType());
-        //assertEquals("Get method failed: wrong status", testUser.getStatus(), gettedUser.getStatus());
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        User testUser2 = testUser;
-        testUser2.setLogin("testLogin2");
-        int beforeAddNumber = userService.getAll().size();
-        Long getAllId = userService.add(testUser2);
-        int afterAddNumber = userService.getAll().size();
-        assertEquals("Get all users method failed", beforeAddNumber, afterAddNumber-1);
-        userService.delete(getAllId);
+        User executedUser = userService.getUser(testUser.getLogin(),testUser.getPassword());
+        testUser.setUid(id);
+        assertEquals("Get method failed: wrong user", testUser, executedUser);
+        userService.delete(id);
     }
 
     @Test
@@ -79,24 +63,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCheckStatus() throws Exception {
-        User offlineUser = userService.getById(id);
-        assertFalse("CheckStatus method negative test failed", userService.checkStatus(offlineUser.getUid()));
-        userService.setStatus(id, UserStatus.ONLINE);
-        User onlineUser = userService.getById(id);
-        assertTrue("CheckStatus method positive test failed", userService.checkStatus(onlineUser.getUid()));
-        userService.setStatus(id, UserStatus.OFFLINE);
-    }
-
-    @Test
     public void testSetStatus() throws Exception {
+        User prepareToUpdateStatusUser = userService.getById(id);
         userService.setStatus(id, UserStatus.ONLINE);
-        assertEquals("Set user status method failed", userService.getById(id).getStatus(), UserStatus.ONLINE);
-        userService.setStatus(id, UserStatus.OFFLINE);
+        User updatedStatusUser = userService.getById(id);
+        assertEquals("Set user status method failed", prepareToUpdateStatusUser.getStatus(), updatedStatusUser.getStatus());
+        userService.delete(id);
     }
 
     @After
     public void tearDown() throws Exception{
-        userService.delete(id);
     }
 }

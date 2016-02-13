@@ -8,8 +8,16 @@
 		<input type="hidden" name="command" value="add_airport_command" />
 		<table>
 			<tr>
+				<td class="input-label">Name:</td>
+				<td><input class="inputForm" type="text" name="name" title="Name"/></td>
+			</tr>
+			<tr>
 				<td class="input-label">City:</td>
 				<td><input class="inputForm" type="text" name="city" title="City"/></td>
+			</tr>
+			<tr>
+				<td class="input-label">Country:</td>
+				<td><input class="inputForm" type="text" name="country" title="Country"/></td>
 			</tr>
 		</table>
 		<input class="button" type="submit" name="submit" value="add plane" />

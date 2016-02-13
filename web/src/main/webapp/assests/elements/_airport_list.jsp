@@ -12,7 +12,7 @@
         <c:forEach items="${requestScope.airports}" var="airport">
             <tr>
                 <td>${airport.aid}</td>
-                <td>${airport.city}</td>
+                <td>${airport.name}</td>
                 <td style="width: 70px;">
                     <form action="controller" method="post">
                         <input type="hidden" name="command" value="delete_airport_command"/>

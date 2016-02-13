@@ -1,8 +1,8 @@
 package by.pvt.kish.aircompany.dao;
 
 import by.pvt.kish.aircompany.enums.FlightStatus;
-import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.exceptions.DaoException;
+import by.pvt.kish.aircompany.pojos.Flight;
 
 import java.util.List;
 
@@ -14,23 +14,20 @@ import java.util.List;
 public interface IFlightDAO {
 
     /**
-     * Returns a list of five last flights of the concrete plane from the DB
+     * Update particular plane status int the DB matching the given ID
      *
-     * @param id - The ID of the plane
-     * @return - the list of last five flight of the concrete plane
+     * @param id - The ID of the flight
      * @throws DaoException If something fails at DB level
      */
-    List<Flight> getPlaneLastFiveFlights(Long id) throws DaoException;
+    void setFlightStatus(Long id, FlightStatus status) throws DaoException;
 
     /**
-     * Returns a list of five last flights of the concrete employee from the DB
+     * Returns a list of flights ordered by date, prepared for pagination from the DB
      *
-     * @param id - The ID of the employee
-     * @return - the list of last five flight of the concrete employee
+     * @param pageSize - The number of flights at the page
+     * @param pageNumber - The number of the showed page
+     * @return - the list of the flights, ordered by date
      * @throws DaoException If something fails at DB level
      */
-    List<Flight> getEmployeeLastFiveFlights(Long id) throws DaoException;
-
-    void setStatus(Long id, FlightStatus status) throws DaoException;
-
+    List<Flight> getAllToPage(int pageSize, int pageNumber) throws DaoException;
 }

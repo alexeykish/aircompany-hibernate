@@ -3,6 +3,8 @@ package by.pvt.kish.aircompany.utils;
 import org.hibernate.cfg.DefaultNamingStrategy;
 
 /**
+ * Realise DB naming strategy, where all tables starts with "T_" and all fields starts with "F_"
+ *
  * @author Kish Alexey
  */
 public class CustomNamingStrategy extends DefaultNamingStrategy {

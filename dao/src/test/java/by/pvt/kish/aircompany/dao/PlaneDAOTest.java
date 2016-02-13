@@ -1,7 +1,9 @@
 package by.pvt.kish.aircompany.dao;
 
+import by.pvt.kish.aircompany.dao.impl.FlightDAO;
 import by.pvt.kish.aircompany.dao.impl.PlaneDAO;
 import by.pvt.kish.aircompany.enums.PlaneStatus;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.pojos.PlaneCrew;
 import by.pvt.kish.aircompany.utils.HibernateUtil;
@@ -9,6 +11,9 @@ import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -50,7 +55,7 @@ public class PlaneDAOTest {
         Plane prepareToUpdatePlane = planeDAO.getById(id);
         prepareToUpdatePlane.setModel("updatedModel");
         prepareToUpdatePlane.setCapacity(300);
-        prepareToUpdatePlane.setRange(400);
+        prepareToUpdatePlane.setFlightRange(400);
 
         PlaneCrew updatedCrew = new PlaneCrew(2, 2, 2, 2);
         updatedCrew.setPid(id);
@@ -65,8 +70,8 @@ public class PlaneDAOTest {
 
     @Test
     public void testGetAll() throws Exception {
-        Long countPlanes = (long) planeDAO.getAll().size();
-        Long countLines = planeDAO.getCount();
+        int countPlanes = planeDAO.getAll().size();
+        int countLines = planeDAO.getCount();
         assertEquals("Get all method failed", countLines, countPlanes);
         planeDAO.delete(id);
     }
@@ -81,10 +86,33 @@ public class PlaneDAOTest {
 
     public void testSetStatus() throws Exception {
         Plane prepareToUpdateStatusPlane = planeDAO.getById(id);
-        planeDAO.setStatus(id, PlaneStatus.BLOCKED);
+        planeDAO.setPlaneStatus(id, PlaneStatus.BLOCKED);
         Plane updatedStatusPlane = planeDAO.getById(id);
         assertEquals("Update method failed: wrong status", updatedStatusPlane.getStatus(), prepareToUpdateStatusPlane.getStatus());
         planeDAO.delete(id);
+    }
+
+    @Test
+    public void testGetAllAvailable() throws  Exception {
+        Plane plane1 = new Plane("model1", 100, 100);
+        plane1.setStatus(PlaneStatus.AVAILABLE);
+        Plane plane2 = new Plane("model2", 100, 100);
+        plane2.setStatus(PlaneStatus.BLOCKED);
+        Long pid1 = planeDAO.add(plane1);
+        Long pid2 = planeDAO.add(plane2);
+        Flight flight = new Flight();
+        Date testDate1 = new Date(System.currentTimeMillis() + 1000L * 60L * 60L * 24L);
+        flight.setDate(testDate1);
+        flight.setPlane(testPlane);
+        Long fid = FlightDAO.getInstance().add(flight);
+        List<Plane> planes = planeDAO.getAllAvailablePlanes(testDate1);
+        for (Plane p: planes) {
+            System.out.println(p);
+        }
+        System.out.println("List size = " + planes.size());
+        planeDAO.delete(pid1);
+        planeDAO.delete(pid2);
+        FlightDAO.getInstance().delete(fid);
     }
 
     @After

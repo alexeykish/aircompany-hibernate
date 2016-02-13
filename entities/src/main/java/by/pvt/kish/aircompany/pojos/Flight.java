@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,26 +27,62 @@ public class Flight implements Serializable {
 
     @Id
     @GeneratedValue
+    public Long getFid() {
+        return fid;
+    }
+    public void setFid(Long fid) {
+        this.fid = fid;
+    }
     private Long fid;
 
     @Temporal(TemporalType.DATE)
     @Column
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
     private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "F_DEPARTURE_ID")
+    public Airport getDeparture() {
+        return departure;
+    }
+    public void setDeparture(Airport departure) {
+        this.departure = departure;
+    }
     private Airport departure;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "F_ARRIVAL_ID")
+    public Airport getArrival() {
+        return arrival;
+    }
+    public void setArrival(Airport arrival) {
+        this.arrival = arrival;
+    }
     private Airport arrival;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "F_PLANE_ID")
+    public Plane getPlane() {
+        return plane;
+    }
+    public void setPlane(Plane plane) {
+        this.plane = plane;
+    }
     private Plane plane;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('CREATED','READY','CANCELED','DEPARTED','REDIRECTED','ARRIVAL')")
+    public FlightStatus getStatus() {
+        return status;
+    }
+    public void setStatus(FlightStatus status) {
+        this.status = status;
+    }
     private FlightStatus status = FlightStatus.CREATED;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -55,12 +90,15 @@ public class Flight implements Serializable {
             name = "t_flights_employees",
             joinColumns = @JoinColumn(name = "f_fid"),
             inverseJoinColumns = @JoinColumn(name = "f_eid"))
+    public Set<Employee> getCrew() {
+        return crew;
+    }
+    public void setCrew(Set<Employee> crew) {
+        this.crew = crew;
+    }
     private Set<Employee> crew = new HashSet();
 
-
-    public Flight() {
-
-    }
+    public Flight() { }
 
     /**
      * @param date      - flight date (departure date)
@@ -104,62 +142,6 @@ public class Flight implements Serializable {
         result = 31 * result + (plane != null ? plane.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
-    }
-
-    public Long getFid() {
-        return fid;
-    }
-
-    public void setFid(Long fid) {
-        this.fid = fid;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Airport getDeparture() {
-        return departure;
-    }
-
-    public void setDeparture(Airport departure) {
-        this.departure = departure;
-    }
-
-    public Airport getArrival() {
-        return arrival;
-    }
-
-    public void setArrival(Airport arrival) {
-        this.arrival = arrival;
-    }
-
-    public Plane getPlane() {
-        return plane;
-    }
-
-    public void setPlane(Plane plane) {
-        this.plane = plane;
-    }
-
-    public FlightStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(FlightStatus status) {
-        this.status = status;
-    }
-
-    public Set<Employee> getCrew() {
-        return crew;
-    }
-
-    public void setCrew(Set<Employee> crew) {
-        this.crew = crew;
     }
 
     @Override

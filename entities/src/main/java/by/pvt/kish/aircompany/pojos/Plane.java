@@ -23,25 +23,67 @@ public class Plane implements Serializable {
 
     @Id
     @GeneratedValue
+    public Long getPid() {
+        return pid;
+    }
+    public void setPid(Long pid) {
+        this.pid = pid;
+    }
     private Long pid;
 
     @Column(nullable = false)
+    public String getModel() {
+        return model;
+    }
+    public void setModel(String model) {
+        this.model = model;
+    }
     private String model;
 
     @Column(nullable = false)
+    public int getCapacity() {
+        return capacity;
+    }
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
     private int capacity;
 
     @Column(nullable = false)
+    public int getFlightRange() {
+        return flightRange;
+    }
+    public void setFlightRange(int flightRange) {
+        this.flightRange = flightRange;
+    }
     private int flightRange;
 
     @OneToMany(mappedBy = "plane")
+    public Set<Flight> getFlights() {
+        return flights;
+    }
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
+    }
     private Set<Flight> flights;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('AVAILABLE','MAINTENANCE','BLOCKED')", insertable = false)
+    @Column(columnDefinition = "enum('AVAILABLE','MAINTENANCE','BLOCKED')")
+    public PlaneStatus getStatus() {
+        return status;
+    }
+    public void setStatus(PlaneStatus status) {
+        this.status = status;
+    }
     private PlaneStatus status = PlaneStatus.AVAILABLE;
 
     @OneToOne(mappedBy = "plane", cascade=CascadeType.ALL)
+    public PlaneCrew getPlaneCrew() {
+        return planeCrew;
+    }
+    public void setPlaneCrew(PlaneCrew crew) {
+        this.planeCrew = crew;
+    }
     private PlaneCrew planeCrew;
 
     public Plane() {
@@ -50,13 +92,13 @@ public class Plane implements Serializable {
     /**
      * @param model     - plane model
      * @param capacity  - plane passenger capacity
-     * @param range     - plane flight range
+     * @param flightRange     - plane flight range
      */
 
-    public Plane(String model, int capacity, int range) {
+    public Plane(String model, int capacity, int flightRange) {
         this.model = model;
         this.capacity = capacity;
-        this.flightRange = range;
+        this.flightRange = flightRange;
     }
 
     @Override
@@ -84,54 +126,6 @@ public class Plane implements Serializable {
         return result;
     }
 
-    public Long getPid() {
-        return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getRange() {
-        return flightRange;
-    }
-
-    public void setRange(int range) {
-        this.flightRange = range;
-    }
-
-    public PlaneCrew getPlaneCrew() {
-        return planeCrew;
-    }
-
-    public void setPlaneCrew(PlaneCrew team) {
-        this.planeCrew = team;
-    }
-
-    public PlaneStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(PlaneStatus status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Plane{" +
@@ -142,13 +136,5 @@ public class Plane implements Serializable {
                 ", status=" + status +
                 ", planeCrew=" + planeCrew +
                 '}';
-    }
-
-    public Set<Flight> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(Set<Flight> flights) {
-        this.flights = flights;
     }
 }

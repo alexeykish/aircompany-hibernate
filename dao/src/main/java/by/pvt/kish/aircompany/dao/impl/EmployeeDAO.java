@@ -8,20 +8,17 @@ import by.pvt.kish.aircompany.dao.IEmployeeDAO;
 import by.pvt.kish.aircompany.enums.EmployeeStatus;
 import by.pvt.kish.aircompany.exceptions.DaoException;
 import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Flight;
 import by.pvt.kish.aircompany.utils.HibernateUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import static by.pvt.kish.aircompany.utils.DaoUtils.closePreparedStatement;
-import static by.pvt.kish.aircompany.utils.DaoUtils.closeResultSet;
 
 /**
  * This class represents a concrete implementation of the IDAO interface for employee model.
@@ -32,21 +29,17 @@ public class EmployeeDAO extends BaseDAO<Employee> implements IEmployeeDAO{
 
 	private static Logger logger = Logger.getLogger(EmployeeDAO.class);
 
-	private static final String HQL_UPDATE_EMPLOYEE_STATUS = "update FROM Employee E set E.status=:status where E.eid=:id";
-	private static final String SQL_GET_ALL_AVAILABLE_EMPLOYEES = "SELECT * FROM employees as e " +
-																	"WHERE e.eid NOT IN (" +
-																	"SELECT t.t_eid FROM teams as t " +
-																	"JOIN flights as f on f.fid=t.t_fid " +
-																	"WHERE  f.date = ?)) " +
-																	"AND (e.`status` <> 'BLOCKED')";
-	private static final String SQL_GET_EMPLOYEE_AVAILABILITY = "SELECT * FROM teams " +
-																	"JOIN flights on flights.fid=teams.t_fid " +
-																	"WHERE  flights.date = ? " +
-																	"HAVING t_eid = ?";
+	private static final String HQL_UPDATE_EMPLOYEE_STATUS = "update FROM Employee E set E.status=:employeestatus where E.eid=:id";
+	private static final String HQL_GET_ALL_AVAILABLE_EMPLOYEES = "select E from Employee E where E not in (select E from Employee E join E.flights f where f.date=:date) and E.status=:employeestatus";
+	private static final String HQL_GET_EMPLOYEE_AVAILABILITY = "select E from Employee E join E.flights f where f.date=:date and E.eid=:id";
+	private static final String HQL_GET_EMPLOYEES_LAST_FIVE_FLIGHTS = "select E.flights from Employee E where E.eid =:eid";
+	private static final String HQL_GET_EMPLOYEES_BY_FLIGHTID = "select E from Employee E join E.flights F where F.fid =:id";
 
 	private static final String UPDATE_EMPLOYEE_STATUS_FAIL = "Updating employee status failed";
 	private static final String GET_ALL_AVAILABLE_EMPLOYEE_FAIL = "Getting all available employee failed";
 	private static final String GET_USER_AVAILABILITY_FAIL = "Getting user availability failed";
+	private static final String GET_EMPLOYEES_FLIGHTS_FAIL = "Getting employees flights failed";
+	private static final String GET_EMPLOYEE_BY_FLIGHTID_FAIL = "Getting employees by flight id failed";
 
 	private static EmployeeDAO instance;
 	private HibernateUtil util = HibernateUtil.getUtil();
@@ -72,12 +65,14 @@ public class EmployeeDAO extends BaseDAO<Employee> implements IEmployeeDAO{
 	 * @return - a list of all available employees at this date from the DB
 	 * @throws DaoException If something fails at DB level
 	 */
-	public List<Employee> getAllAvailable(Date date) throws DaoException {
+	@Override
+	public List<Employee> getAllAvailableEmployee(Date date) throws DaoException {
 		List<Employee> employees = new ArrayList<>();
 		try {
 			Session session = util.getSession();
-			Query query = session.createSQLQuery(SQL_GET_ALL_AVAILABLE_EMPLOYEES);
-			query.setParameter(1, date);
+			Query query = session.createQuery(HQL_GET_ALL_AVAILABLE_EMPLOYEES);
+			query.setParameter("date", date);
+			query.setParameter("employeestatus", EmployeeStatus.AVAILABLE);
 			employees = query.list();
 		} catch (HibernateException e) {
 			throw new DaoException(GET_ALL_AVAILABLE_EMPLOYEE_FAIL);
@@ -91,11 +86,12 @@ public class EmployeeDAO extends BaseDAO<Employee> implements IEmployeeDAO{
 	 * @param status - The status to be changed
 	 * @throws DaoException If something fails at DB level
 	 */
-	public void setStatus(Long id, EmployeeStatus status) throws DaoException {
+	@Override
+	public void setEmployeeStatus(Long id, EmployeeStatus status) throws DaoException {
 		try {
 			Session session = util.getSession();
 			Query query = session.createQuery(HQL_UPDATE_EMPLOYEE_STATUS);
-			query.setParameter("status",status);
+			query.setParameter("employeestatus",status);
 			query.setParameter("id",id);
 			query.executeUpdate();
 		} catch (HibernateException e) {
@@ -111,23 +107,87 @@ public class EmployeeDAO extends BaseDAO<Employee> implements IEmployeeDAO{
 	 * @return - false if employee isn't in another flights at that date, true - if employee is busy at that date
 	 * @throws DaoException If something fails at DB level
 	 */
+	@Override
 	public boolean checkEmployeeAvailability(Long id, Date flightDate) throws DaoException {
-		ResultSet resultSet = null;
+		List results;
 		try {
-			preparedStatement = connection.prepareStatement(SQL_GET_EMPLOYEE_AVAILABILITY);
-			preparedStatement.setDate(1, flightDate);
-			preparedStatement.setLong(2, id);
-			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				return true;
+			Session session = util.getSession();
+			Query query = session.createQuery(HQL_GET_EMPLOYEE_AVAILABILITY);
+			query.setParameter("date", flightDate);
+			query.setParameter("id", id);
+			results = query.list();
+			if (!results.isEmpty()) {
+				return false;
 			}
-		} catch (SQLException e) {
+		} catch (HibernateException e) {
 			throw new DaoException(GET_USER_AVAILABILITY_FAIL, e);
-		} finally {
-			closeResultSet(resultSet);
-			closePreparedStatement(preparedStatement);
 		}
-		return false;
+		return true;
 	}
 
+	/**
+	 * Returns a list of five last flights of the concrete employee from the DB
+	 *
+	 * @param id - The ID of the plane
+	 * @return - the list of last five flight of the concrete employee
+	 * @throws DaoException If something fails at DB level
+	 */
+	@Override
+	public List<Flight> getEmployeeLastFiveFlights(Long id) throws DaoException {
+		List<Flight> flights = new ArrayList<>();
+		try {
+			Session session = util.getSession();
+			Query query = session.createQuery(HQL_GET_EMPLOYEES_LAST_FIVE_FLIGHTS);
+			query.setParameter("eid",id);
+			query.setMaxResults(5);
+			flights = query.list();
+		} catch (HibernateException e) {
+			throw new DaoException(GET_EMPLOYEES_FLIGHTS_FAIL, e);
+		}
+		return flights;
+	}
+
+	/**
+	 * Returns a list of employees as flight crew of the concrete flight from the DB
+	 *
+	 * @param id - The ID of the flight
+	 * @return - the list of the employees as flight crew
+	 * @throws DaoException If something fails at DB level
+	 */
+	@Override
+	public List<Employee> getFlightCrewByFlightId(Long id) throws DaoException {
+		List<Employee> employees = new ArrayList<>();
+		try {
+			Session session = util.getSession();
+			Query query = session.createQuery(HQL_GET_EMPLOYEES_BY_FLIGHTID);
+			query.setParameter("id", id);
+			employees = query.list();
+		} catch (HibernateException e) {
+			throw new DaoException(GET_EMPLOYEE_BY_FLIGHTID_FAIL);
+		}
+		return employees;
+	}
+
+	/**
+	 * Returns a list of employees prepared for pagination from the DB
+	 *
+	 * @param pageSize - The number of employees at the page
+	 * @param pageNumber - The number of the showed page
+	 * @return - the list of the employees
+	 * @throws DaoException If something fails at DB level
+	 */
+	@Override
+	public List<Employee> getAllToPage(int pageSize, int pageNumber) throws DaoException {
+		List<Employee> results = new ArrayList<>();
+		try {
+			Session session = util.getSession();
+			Criteria criteria = session.createCriteria(Employee.class);
+			criteria.setFirstResult((pageNumber - 1) * pageSize);
+			criteria.setMaxResults(pageSize);
+			results = criteria.list();
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
+		return results;
+	}
 }

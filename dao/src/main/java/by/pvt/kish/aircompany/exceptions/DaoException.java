@@ -1,12 +1,14 @@
 package by.pvt.kish.aircompany.exceptions;
 
+import org.hibernate.HibernateException;
+
 /**
  * This class represents a generic DAO exception. It should wrap any exception of the underlying
  * code, such as SQLExceptions.
  *
  * @author Kish Alexey
  */
-public class DaoException extends Exception {
+public class DaoException extends HibernateException {
     /**
      * Constructs a DAOException with the given detail message.
      *

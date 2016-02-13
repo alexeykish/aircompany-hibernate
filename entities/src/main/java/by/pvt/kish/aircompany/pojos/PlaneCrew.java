@@ -6,6 +6,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 
 /**
+ * This class represents the Plane crew model
  * @author Kish Alexey
  */
 @Entity
@@ -17,22 +18,58 @@ public class PlaneCrew {
             strategy = "foreign",
             parameters = @Parameter(name = "property", value = "plane"))
     @GeneratedValue(generator = "generator")
+    public Long getPid() {
+        return pid;
+    }
+    public void setPid(Long pid) {
+        this.pid = pid;
+    }
     private Long pid;
 
     @Column(nullable = false)
+    public int getNumberOfPilots() {
+        return numberOfPilots;
+    }
+    public void setNumberOfPilots(int numberOfPilots) {
+        this.numberOfPilots = numberOfPilots;
+    }
     private int numberOfPilots;
 
     @Column
+    public int getNumberOfNavigators() {
+        return numberOfNavigators;
+    }
+    public void setNumberOfNavigators(int numberOfNavigators) {
+        this.numberOfNavigators = numberOfNavigators;
+    }
     private int numberOfNavigators;
 
     @Column
+    public int getNumberOfRadiooperators() {
+        return numberOfRadiooperators;
+    }
+    public void setNumberOfRadiooperators(int numberOfRadiooperators) {
+        this.numberOfRadiooperators = numberOfRadiooperators;
+    }
     private int numberOfRadiooperators;
 
     @Column
+    public int getNumberOfStewardesses() {
+        return numberOfStewardesses;
+    }
+    public void setNumberOfStewardesses(int numberOfStewardesses) {
+        this.numberOfStewardesses = numberOfStewardesses;
+    }
     private int numberOfStewardesses;
 
     @OneToOne
     @PrimaryKeyJoinColumn
+    public Plane getPlane() {
+        return plane;
+    }
+    public void setPlane(Plane plane) {
+        this.plane = plane;
+    }
     private Plane plane;
 
     public PlaneCrew() {
@@ -68,54 +105,6 @@ public class PlaneCrew {
         result = 31 * result + numberOfRadiooperators;
         result = 31 * result + numberOfStewardesses;
         return result;
-    }
-
-    public int getNumberOfPilots() {
-        return numberOfPilots;
-    }
-
-    public void setNumberOfPilots(int numberOfPilots) {
-        this.numberOfPilots = numberOfPilots;
-    }
-
-    public int getNumberOfNavigators() {
-        return numberOfNavigators;
-    }
-
-    public void setNumberOfNavigators(int numberOfNavigators) {
-        this.numberOfNavigators = numberOfNavigators;
-    }
-
-    public int getNumberOfRadiooperators() {
-        return numberOfRadiooperators;
-    }
-
-    public void setNumberOfRadiooperators(int numberOfRadiooperators) {
-        this.numberOfRadiooperators = numberOfRadiooperators;
-    }
-
-    public int getNumberOfStewardesses() {
-        return numberOfStewardesses;
-    }
-
-    public void setNumberOfStewardesses(int numberOfStewardesses) {
-        this.numberOfStewardesses = numberOfStewardesses;
-    }
-
-    public Plane getPlane() {
-        return plane;
-    }
-
-    public void setPlane(Plane plane) {
-        this.plane = plane;
-    }
-
-    public Long getPid() {
-        return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
     }
 
     @Override

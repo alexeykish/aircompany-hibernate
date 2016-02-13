@@ -24,6 +24,8 @@ public class FlightDAOTest {
 
     private Flight testFlight1;
     private Flight testFlight2;
+    Address testAddress1;
+    Address testAddress2;
     private Long id1;
     private Long id2;
     private FlightDAO flightDAO = FlightDAO.getInstance();
@@ -32,8 +34,10 @@ public class FlightDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        Airport departedAirport = new Airport("departedAirport");
-        Airport arrivalAirport = new Airport("arrivalAirport");
+        testAddress1 = new Address("testCountry1", "testCity1");
+        testAddress2 = new Address("testCountry2", "testCity2");
+        Airport departedAirport = new Airport("departedAirport", testAddress1);
+        Airport arrivalAirport = new Airport("arrivalAirport", testAddress2);
         PlaneCrew planeCrew1 = new PlaneCrew(1, 1, 1, 1);
         PlaneCrew planeCrew2 = new PlaneCrew(1, 0, 0, 1);
         Plane plane1 = new Plane("testModel", 100, 100);
@@ -101,8 +105,8 @@ public class FlightDAOTest {
     @Test
     public void testUpdate() throws Exception {
         Flight prepareToUpdateFlight = flightDAO.getById(id1);
-        Airport changedDepartureAirport = new Airport("changedDepartureAirport");
-        Airport changedArrivalAirport = new Airport("changedArrivalAirport");
+        Airport changedDepartureAirport = new Airport("changedDepartureAirport", testAddress2);
+        Airport changedArrivalAirport = new Airport("changedArrivalAirport", testAddress1);
         prepareToUpdateFlight.setDate(new Date());
         prepareToUpdateFlight.setDeparture(changedDepartureAirport);
         prepareToUpdateFlight.setArrival(changedArrivalAirport);
@@ -116,8 +120,8 @@ public class FlightDAOTest {
 
     @Test
     public void testGetAll() throws Exception {
-        Long count = (long) flightDAO.getAll().size();
-        Long countFact = flightDAO.getCount();
+        int count = flightDAO.getAll().size();
+        int countFact = flightDAO.getCount();
         assertEquals("Get all method failed", count, countFact);
         flightDAO.delete(id1);
         flightDAO.delete(id2);
@@ -134,7 +138,7 @@ public class FlightDAOTest {
     @Test
     public void testSetStatus() throws Exception {
         Flight prepareToUpdateStatusFlight = flightDAO.getById(id1);
-        flightDAO.setStatus(id1, FlightStatus.CANCELED);
+        flightDAO.setFlightStatus(id1, FlightStatus.CANCELED);
         Flight updatedStatusFlight = flightDAO.getById(id1);
         assertEquals("Update method failed: wrong status", updatedStatusFlight.getStatus(), prepareToUpdateStatusFlight.getStatus());
         flightDAO.delete(id1);

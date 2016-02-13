@@ -45,8 +45,8 @@ public class FlightValidator implements IValidator<Flight> {
     private static boolean checkEmpty(Flight flight) {
         return flight == null ||
                 flight.getDate() == null ||
-                flight.getFrom() == null ||
-                flight.getTo() == null ||
+                flight.getDeparture() == null ||
+                flight.getArrival() == null ||
                 flight.getPlane() == null;
     }
 
@@ -57,7 +57,7 @@ public class FlightValidator implements IValidator<Flight> {
      * @return - false, if everything checks out correctly; true - if the data is invalid
      */
     private static boolean checkEntry(Flight flight) {
-        return flight.getFrom().equals(flight.getTo());
+        return flight.getDeparture().equals(flight.getArrival());
     }
 
     /**

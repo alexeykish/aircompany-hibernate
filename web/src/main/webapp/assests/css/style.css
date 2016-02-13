@@ -66,6 +66,17 @@ body {
     border-spacing: 0;
 }
 
+.pagination {
+    text-align: center;
+    vertical-align: text-top;
+    font-size: 12px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: dotted 1px grey;
+    width: 50px;
+    height: 15px;
+}
+
 .list td {
     border: dotted 1px grey;
 }

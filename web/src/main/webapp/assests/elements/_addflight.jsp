@@ -17,7 +17,7 @@
                 <td class="input-label">Departure place:</td>
                 <td><select class="inputForm" name="from">
                     <c:forEach items="${requestScope.airports}" var="airport">
-                        <option value="${airport.aid}">${airport.city}</option>
+                        <option value="${airport.aid}">${airport.name}</option>
                     </c:forEach>
                 </select></td>
             </tr>
@@ -25,7 +25,7 @@
                 <td class="input-label">Arrival place:</td>
                 <td><select class="inputForm" name="to">
                     <c:forEach items="${requestScope.airports}" var="airport">
-                        <option value="${airport.aid}">${airport.city}</option>
+                        <option value="${airport.aid}">${airport.name}</option>
                     </c:forEach>
                 </select></td>
             </tr>

@@ -4,13 +4,12 @@
 package by.pvt.kish.aircompany.validators;
 
 import by.pvt.kish.aircompany.constants.Message;
-import by.pvt.kish.aircompany.pojos.Employee;
-import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.enums.Position;
 import by.pvt.kish.aircompany.exceptions.ServiceException;
+import by.pvt.kish.aircompany.pojos.Employee;
+import by.pvt.kish.aircompany.pojos.Plane;
 import by.pvt.kish.aircompany.services.impl.EmployeeService;
 import by.pvt.kish.aircompany.services.impl.FlightService;
-import by.pvt.kish.aircompany.services.impl.TeamService;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -83,10 +82,10 @@ public class TeamValidator {
                 num_stewardesses++;
             }
         }
-        return num_pilots != plane.getPlaneCrew().get(Position.PILOT) ||
-                num_navigators != plane.getPlaneCrew().get(Position.NAVIGATOR) ||
-                num_radiooperators != plane.getPlaneCrew().get(Position.RADIOOPERATOR) ||
-                num_stewardesses != plane.getPlaneCrew().get(Position.STEWARDESS);
+        return num_pilots != plane.getPlaneCrew().getNumberOfPilots() ||
+                num_navigators != plane.getPlaneCrew().getNumberOfNavigators() ||
+                num_radiooperators != plane.getPlaneCrew().getNumberOfRadiooperators() ||
+                num_stewardesses != plane.getPlaneCrew().getNumberOfStewardesses();
     }
 
     /**
@@ -119,9 +118,9 @@ public class TeamValidator {
     }
 
     public static boolean checkEmployee(Long id, List<Long> team) throws ServiceException {
-        Date flightDate = FlightService.getInstance().getById(id).getDate();
+        Date flightDate = (Date) FlightService.getInstance().getById(id).getDate();
         for (Long eid : team) {
-            if (TeamService.getInstance().checkEmployeeAvailability(eid, flightDate)) {
+            if (EmployeeService.getInstance().checkEmployeeAvailability(eid, flightDate)) {
                 return true;
             }
         }

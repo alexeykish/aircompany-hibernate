@@ -32,6 +32,6 @@ public class AirportValidator implements IValidator<Airport> {
      */
     private static boolean checkEmpty(Airport airport) {
         return (airport == null) ||
-                (airport.getCity() == null);
+                (airport.getName() == null);
     }
 }
