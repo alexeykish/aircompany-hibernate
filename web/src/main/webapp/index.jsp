@@ -26,7 +26,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <%@include file="/assests/elements/_auth.jsp" %>
+        <%@include file="/WEB-INF/view/elements/_auth.jsp" %>
     </div>
     <div>
         <p style="text-align: center; font-size: 12px; color: red;">${requestScope.login_message}

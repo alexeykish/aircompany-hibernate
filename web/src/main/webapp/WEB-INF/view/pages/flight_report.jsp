@@ -15,11 +15,22 @@
 	<table style="border-collapse: collapse;">
 		<tbody>
 			<tr>
-				<td id="left-content" class="left-content">
-					<div>
-						<%@include file="../elements/_adminmenu.jsp"%>
-					</div>
-				</td>
+				<c:if
+						test="${(not empty sessionScope.userType) and (sessionScope.userType == '2')}">
+					<td id="left-content" class="left-content">
+						<div>
+							<%@include file="../elements/_adminmenu.jsp" %>
+						</div>
+					</td>
+				</c:if>
+				<c:if
+						test="${(not empty sessionScope.userType) and (sessionScope.userType == '1')}">
+					<td id="left-content" class="left-content">
+						<div>
+							<%@include file="../elements/_dispmenu.jsp" %>
+						</div>
+					</td>
+				</c:if>
 
 				<td id="right-content" class="right-content">
 					<div>

@@ -14,39 +14,39 @@
     </servlet>
     <servlet>
         <servlet-name>registration-page</servlet-name>
-        <jsp-file>/assests/pages/registration.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/registration.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>addflight-page</servlet-name>
-        <jsp-file>/assests/pages/addflight.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/addflight.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>updateflight-page</servlet-name>
-        <jsp-file>/assests/pages/editflight.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/editflight.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>addemployee-page</servlet-name>
-        <jsp-file>/assests/pages/addemployee.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/addemployee.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>updateemployee-page</servlet-name>
-        <jsp-file>/assests/pages/editemployee.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/editemployee.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>addairport-page</servlet-name>
-        <jsp-file>/assests/pages/addairport.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/addairport.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>updateairport-page</servlet-name>
-        <jsp-file>/assests/pages/editairport.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/editairport.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>addplane-page</servlet-name>
-        <jsp-file>/assests/pages/addplane.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/addplane.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>updateplane-page</servlet-name>
-        <jsp-file>/assests/pages/editplane.jsp</jsp-file>
+        <jsp-file>/WEB-INF/view/pages/editplane.jsp</jsp-file>
     </servlet>
 
     <servlet-mapping>
